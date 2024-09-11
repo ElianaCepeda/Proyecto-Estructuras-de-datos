@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-
+    Sistema sistema;
     string opcion;
     string entrada;
     int numtokes = 0;
@@ -51,18 +51,18 @@ int main()
         {
             if (index == 1)
             {
-                ayuda();
+                sistema.ayuda();
             }
             else if (index == 2)
             {
-                ayudaComando(tokens[1]);
+                sistema.ayudaComando(tokens[1]);
             }
         }
         else if (strcmp(tokens[0].c_str(), "cargar") == 0)
         {
             if (index == 2)
             {
-                cargarArchivo();
+                sistema.cargarArchivo();
             }
             else
             {
@@ -73,7 +73,7 @@ int main()
         {
             if (index == 1)
             {
-                listado();
+                sistema.listado();
             }
             else
             {
@@ -84,11 +84,11 @@ int main()
         {
             if (index == 1)
             {
-                envolvente();
+                sistema.envolvente();
             }
             else if (index == 2)
             {
-                envolventeObjeto();
+                sistema.envolventeObjeto();
             }
             else
             {
@@ -99,7 +99,7 @@ int main()
         {
             if (index == 2)
             {
-                descargarObjeto();
+                sistema.descargarObjeto();
             }
             else
             {
@@ -110,7 +110,7 @@ int main()
         {
             if (index == 3)
             {
-                guardarObjetoArchivo();
+                sistema.guardarObjetoArchivo();
             }
             else
             {
@@ -121,11 +121,11 @@ int main()
         {
             if (index == 5)
             {
-                v_cercanoObjeto();
+                sistema.v_cercanoObjeto();
             }
             else if (index == 4)
             {
-                v_cercano();
+                sistema.v_cercano();
             }
             else
             {
@@ -136,7 +136,7 @@ int main()
         {
             if (index == 2)
             {
-                v_cercanos_caja();
+                sistema.v_cercanos_caja();
             }
             else
             {
@@ -147,7 +147,7 @@ int main()
         {
             if (index == 4)
             {
-                ruta_cortaVertices();
+                sistema.ruta_cortaVertices();
             }
             else
             {
@@ -158,7 +158,7 @@ int main()
         {
             if (index == 3)
             {
-                ruta_cortaCentro();
+                sistema.ruta_cortaCentro();
             }
             else
             {

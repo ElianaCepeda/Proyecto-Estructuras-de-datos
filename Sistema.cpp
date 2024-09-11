@@ -1,4 +1,5 @@
 #include "Sistema.h"
+
 #include <cstring>
 #include <iostream>
 #include <stdlib.h>
@@ -6,57 +7,70 @@
 #include <vector>
 using namespace std;
 
+Sistema::Sistema(){
+  puntos.clear();
+  lineas.clear();
+  planos.clear();
+  objetos.clear();
+  cant_lineas=0;
+  cant_objetos=0;
+  cant_planos=0;
+  cant_puntos=0;
+}
 
+int Sistema::calcular_distancia(Punto punto1, Punto punto2){}
 
-void cargarArchivo(){
+int Sistema::buscar_objeto(string nombre){}
+
+void Sistema::cargarArchivo(){
   cout<<"Comando ejecutado\n";
 }
 
-void listado(){
+void Sistema::listado(){
   cout<<"Comando ejecutado\n";
 }
 
-void envolvente(){
+void Sistema::envolvente(){
   cout<<"Comando ejecutado\n";
 }
 
-void envolventeObjeto(){
+void Sistema::envolventeObjeto(){
   cout<<"Comando ejecutado\n";
 }
 
 
-void descargarObjeto(){
+void Sistema::descargarObjeto(){
   cout<<"Comando ejecutado\n";
 }
 
-void guardarObjetoArchivo(){
+void Sistema::guardarObjetoArchivo(){
   cout<<"Comando ejecutado\n";
   
 }
 
-void v_cercanoObjeto(){
+void Sistema::v_cercanoObjeto(){
   cout<<"Comando ejecutado\n";
 }
 
-void v_cercano(){
+void Sistema::v_cercano(){
   cout<<"Comando ejecutado\n";
 }
 
-void v_cercanos_caja(){
+void Sistema::v_cercanos_caja(){
   cout<<"Comando ejecutado\n";
 }
 
-void ruta_cortaVertices(){
+void Sistema::ruta_cortaVertices(){
   cout<<"Comando ejecutado\n";
 }
 
-void ruta_cortaCentro(){
+void Sistema::ruta_cortaCentro(){
   cout<<"Comando ejecutado\n";
 }
 
 
 
-void ayuda(){
+void Sistema::ayuda(){
 
   cout<<"lista de comandos: "<<endl;
     cout<<"------------------------------------------------"<<endl;
@@ -98,7 +112,7 @@ void ayuda(){
 
 }
 
-void ayudaComando(string comando){
+void Sistema::ayudaComando(string comando){
   if (strcmp(comando.c_str(), "cargar") == 0) {
     cout<<"------------------------------------------------"<<endl;
     cout<<"cargar nombre_archivo"<<endl;
