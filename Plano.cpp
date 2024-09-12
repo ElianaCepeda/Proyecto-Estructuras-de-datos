@@ -36,6 +36,22 @@ Punto* Plano::get_vertices(int indice){
     return vertices[indice];
 }
 
+bool Plano::equals(Plano plano){
+    bool respuesta=false;
+    if(this->indice==plano.indice)
+    respuesta=true;
+
+    return true;
+}
+
+bool Plano::aristas_iguales(vector< Linea*> aristas){
+    bool respuesta=false;
+    if(this->aristas==aristas)
+    respuesta=true;
+
+    return respuesta;
+}
+
 /* void Plano::anadir_Objeto(Objeto* objeto){
     esta_en_objetos.push_back(objeto)
 } */

@@ -35,6 +35,23 @@ double Linea::get_distancia(){
     return distancia;
 }
 
+bool Linea::equals(Linea linea){
+    bool respuesta=false;
+    if(this->indice==linea.indice)
+    respuesta=true;
+
+    return respuesta;
+}
+
+bool Linea::vertices_iguales(Punto vertice1, Punto vertice2){
+    bool respuesta=false;
+
+    if((this->vertice1->get_indice()==vertice1.get_indice() && this->vertice2->get_indice()==vertice2.get_indice())|| (this->vertice1->get_indice()==vertice2.get_indice() && this->vertice2->get_indice()==vertice1.get_indice()))
+        respuesta =true;
+
+    return respuesta;
+}
+
 /* Objeto* Linea::get_esta_en_objetos(int indice){
     return esta_en_objetos[indice];
 

@@ -124,3 +124,31 @@ int Objeto::calcular_maximo(char coordenada){
     return maximo;
 }
 
+string Objeto::to_string(){
+    string cadena="";
+    cadena+= nombre + " contiene:\t "+ std::to_string(vertices.size()) + " vertices, " + std::to_string(aristas.size()) + " aristas, " +
+    std::to_string(caras.size()) + " caras.         ";
+
+    for(int i=0; i<caras.size();i++){
+        cadena += std::to_string(caras[i]->get_idice() ) + "\t";
+    }
+    return cadena;
+}
+
+bool Objeto::equals(Objeto objeto){
+    bool respuesta=false;
+    if(this->indice==objeto.indice)
+    respuesta=true;
+
+    return true;
+}
+
+
+bool Objeto::caras_iguales(vector<Plano*> caras){
+    bool respuesta=false;
+    if(this->caras==caras)
+    respuesta=true;
+
+    return true;
+}
+

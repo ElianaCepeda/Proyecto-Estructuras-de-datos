@@ -28,6 +28,9 @@ public:
     Linea* get_aristas(int indice);
     vector<Punto *> get_vertices();
     Punto* get_vertices(int indice);
+    bool equals(Plano plano);
+    bool aristas_iguales(vector< Linea*> aristas);
+
     //void anadir_Objeto(Objeto* objeto);
 };
 

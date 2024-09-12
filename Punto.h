@@ -25,10 +25,13 @@ private:
 //    vector <Plano *> esta_en_caras;
 public:
     Punto(int indice,double x, double y, double z);
+    int get_indice();
     double get_x();
     double get_y();
     double get_z();
-/*     Objeto * get_esta_en_objetos(int indice);
+    bool equals(Punto punto);
+    bool coordenadas_iguales(double x, double y, double z);
+    /*     Objeto * get_esta_en_objetos(int indice);
     vector<Objeto *> get_esta_en_objetos();
     Linea* get_esta_en_aristas(int indice);
     vector<Linea *> get_esta_en_aristas();

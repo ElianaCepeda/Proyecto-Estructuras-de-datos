@@ -17,6 +17,9 @@ Punto::Punto(int indice,double x, double y, double z){
     this->esta_en_aristas.clear(); */
 }
 
+int Punto::get_indice(){
+    return indice;
+}
 
 double Punto::get_x(){
     return x;
@@ -29,6 +32,22 @@ double Punto::get_y(){
 
 double Punto::get_z(){
     return z;
+}
+
+bool Punto::equals(Punto punto){
+    bool respuesta=false;
+    if(this->indice==punto.indice)
+    respuesta=true;
+
+    return respuesta;
+}
+
+bool Punto::coordenadas_iguales(double x, double y, double z){
+    bool respuesta =false;
+    if(this->x==x && this->y==y && this->z==z)
+    respuesta=true;
+
+    return respuesta;
 }
 /* 
 Objeto* Punto::get_esta_en_objetos(int indice){

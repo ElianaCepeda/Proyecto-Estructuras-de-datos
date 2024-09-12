@@ -37,6 +37,10 @@ public:
 
     int calcular_minimo(char coordenada);
     int calcular_maximo(char coordenada);
+    string to_string();
+
+    bool equals(Objeto objeto);
+    bool caras_iguales(vector<Plano*> caras);
 };
 
 

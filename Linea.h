@@ -30,6 +30,8 @@ public:
     Punto* get_vertice1();
     Punto* get_vertice2();
     double get_distancia();
+    bool equals(Linea linea);
+    bool vertices_iguales(Punto vertice1, Punto vertice2);
 /*     Objeto* get_esta_en_objetos(int indice);
     vector<Objeto*> get_esta_en_objetos();
     Plano* get_esta_en_caras(int indice);
