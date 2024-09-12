@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-Punto::Punto(int indice,int x, int y, int z){
+Punto::Punto(int indice,double x, double y, double z){
     this->indice=indice;
     this->x=x;
     this->y=y;
@@ -18,16 +18,16 @@ Punto::Punto(int indice,int x, int y, int z){
 }
 
 
-int Punto::get_x(){
+double Punto::get_x(){
     return x;
 
 }
 
-int Punto::get_y(){
+double Punto::get_y(){
     return y;
 }
 
-int Punto::get_z(){
+double Punto::get_z(){
     return z;
 }
 /* 

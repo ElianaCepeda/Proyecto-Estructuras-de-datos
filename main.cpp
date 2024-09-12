@@ -62,7 +62,7 @@ int main()
         {
             if (index == 2)
             {
-                sistema.cargarArchivo();
+                sistema.cargarArchivo(tokens[1]);
             }
             else
             {

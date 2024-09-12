@@ -30,7 +30,7 @@ public:
     Sistema();
     int calcular_distancia(Punto punto1, Punto punto2);
     int buscar_objeto(string nombre);
-    void cargarArchivo();
+    void cargarArchivo(string nombre);
     void listado();
     void envolvente();
     void envolventeObjeto();
