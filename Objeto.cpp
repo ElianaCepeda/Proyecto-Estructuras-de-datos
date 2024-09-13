@@ -127,12 +127,8 @@ int Objeto::calcular_maximo(char coordenada){
 string Objeto::to_string(){
     string cadena="";
     cadena+= nombre + " contiene:\t "+ std::to_string(vertices.size()) + " vertices, " + std::to_string(aristas.size()) + " aristas, " +
-    std::to_string(caras.size()) + " caras.         ";
-
-    for(int i=0; i<aristas.size();i++){
-        cadena += std::to_string(aristas[i]->get_vertice1()->get_indice() ) + " "+ std::to_string(aristas[i]->get_vertice2()->get_indice() )+ "\t";
-    }
-    return cadena+"\n";
+    std::to_string(caras.size()) + " caras.\n";
+    return cadena;
 }
 
 bool Objeto::equals(Objeto objeto){
