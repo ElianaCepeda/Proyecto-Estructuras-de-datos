@@ -75,24 +75,13 @@ void Sistema::cargarArchivo(string nombreArchivo){
             coordenadas[1]=stod(scoordenada);
             getline(input_stringstream, scoordenada, ' ');
             coordenadas[2]=stod(scoordenada);
-            // crea el nuevo punto y lo asigna a los vertices del objeto si no existe
-            encontrado=false;
-        
-            for(int i=0; i<cant_puntos;i++){
-              if(puntos[i]->coordenadas_iguales(coordenadas[0],coordenadas[1],coordenadas[2])){
-                aux_vertices_objeto.push_back((puntos[i]));
-                contador++;
-                encontrado=true;
-              }  
-            } 
-
-            if(!encontrado){
-              Punto *vertice = new Punto(cant_puntos, coordenadas[0],coordenadas[1],coordenadas[2]);
-              puntos.push_back(vertice);
-              aux_vertices_objeto.push_back(vertice);
-              cant_puntos++;
-              contador++; // guardamos los vertices del objeto
-            }
+            // crea el nuevo punto y lo asigna a los vertices del objeto 
+            Punto *vertice = new Punto(cant_puntos, coordenadas[0],coordenadas[1],coordenadas[2]);
+            puntos.push_back(vertice);
+            aux_vertices_objeto.push_back(vertice);
+            cant_puntos++;
+            contador++; // guardamos los vertices del objeto
+            
             
           }
         }
@@ -259,6 +248,17 @@ void Sistema::listado(){
     std::cout<< "Hay "<< cant_objetos << " en memoria" << endl;
     for(int i=0; i<cant_objetos;i++){
       cout<<objetos[i]->to_string();
+    }
+
+    cout<<"Puntos\n\n";
+    for(int i=0; i<cant_puntos; i++){
+      cout<< "indice: "<<puntos[i]->get_indice()<<endl;
+      cout<< puntos[i]->get_x()<<" "<<puntos[i]->get_y()<<" "<<puntos[i]->get_z()<<" "<<"\n";
+    }
+    cout<<"Lineas \n\n\n";
+    for(int i=0; i<cant_lineas; i++){
+      cout<< "indice: "<<lineas[i]->get_indice()<<endl;
+      cout<< lineas[i]->get_vertice1()->get_indice()<<"  "<<lineas[i]->get_vertice2()->get_indice()<<" "<<"\n";
     }
   }else{
     std::cout<< "Ningun objeto ha sido cargado en memoria "<< endl;
