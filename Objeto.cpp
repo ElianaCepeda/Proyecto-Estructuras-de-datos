@@ -129,10 +129,10 @@ string Objeto::to_string(){
     cadena+= nombre + " contiene:\t "+ std::to_string(vertices.size()) + " vertices, " + std::to_string(aristas.size()) + " aristas, " +
     std::to_string(caras.size()) + " caras.         ";
 
-    for(int i=0; i<caras.size();i++){
-        cadena += std::to_string(caras[i]->get_idice() ) + "\t";
+    for(int i=0; i<aristas.size();i++){
+        cadena += std::to_string(aristas[i]->get_vertice1()->get_indice() ) + " "+ std::to_string(aristas[i]->get_vertice2()->get_indice() )+ "\t";
     }
-    return cadena;
+    return cadena+"\n";
 }
 
 bool Objeto::equals(Objeto objeto){

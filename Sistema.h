@@ -17,10 +17,10 @@ using namespace std;
 
 class Sistema{
 private:
-vector<Punto> puntos;
-vector<Linea> lineas;
-vector<Plano> planos;
-vector<Objeto> objetos;
+vector<Punto*> puntos;
+vector<Linea*> lineas;
+vector<Plano*> planos;
+vector<Objeto*> objetos;
 int cant_puntos;
 int cant_lineas;
 int cant_planos;
