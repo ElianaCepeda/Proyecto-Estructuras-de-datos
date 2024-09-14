@@ -25,7 +25,7 @@ private:
  */    void calcular_distancia();
 public:
     Linea(int indice, Punto* vertice1, Punto* vertice2);
-    Linea();
+    ~Linea();
     int get_indice();
     Punto* get_vertice1();
     Punto* get_vertice2();

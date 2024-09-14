@@ -24,6 +24,7 @@ Objeto* envolvente;
 
 public:
     Objeto(int indice, string nombre, vector<Punto *> vertices, vector<Linea *> aristas, vector<Plano *> caras);
+    ~Objeto();
     int get_indice();
     string get_nombre();
     vector<Punto *> get_vertices();

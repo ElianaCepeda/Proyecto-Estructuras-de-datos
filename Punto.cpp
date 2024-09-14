@@ -17,6 +17,7 @@ Punto::Punto(int indice,double x, double y, double z){
     this->esta_en_aristas.clear(); */
 }
 
+
 int Punto::get_indice(){
     return indice;
 }

@@ -23,6 +23,7 @@ vector<Punto *> vertices;
 
 public:
     Plano(int indice, vector<Linea *> aristas, vector<Punto *> vertices);
+    ~Plano();
     int get_idice();
     vector<Linea *> get_aristas();
     Linea* get_aristas(int indice);

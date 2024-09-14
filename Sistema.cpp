@@ -23,14 +23,83 @@ Sistema::Sistema(){
 
 int Sistema::calcular_distancia(Punto punto1, Punto punto2){}
 
-int Sistema::buscar_objeto(string nombre){
+int Sistema::buscar_objeto(string nombre){// si encuentra el indice lo devuelve, si no lo encuentra devuelve -1
   int indice=-1;
-  for (int i=0; i<cant_objetos;i++){
+  for (int i=0; i<objetos.size();i++){
     if (objetos[i]->get_nombre()==nombre){
         indice=i;
     }
   }
   return indice;
+}
+
+int Sistema::calcular_minimo(char coordenada){
+    int minimo=0;
+    switch (coordenada)
+    {
+    case 'x':
+        minimo= puntos[0]->get_x();
+        for(int i=1; i<puntos.size(); i++){
+            if(puntos[i]->get_x()<minimo)
+            minimo=puntos[i]->get_x();
+        }
+        break;
+    case 'y':
+        minimo= puntos[0]->get_y();
+        for(int i=1; i<puntos.size(); i++){
+            if(puntos[i]->get_y()<minimo)
+            minimo=puntos[i]->get_y();
+        }
+        break;
+    
+    case 'z':
+        minimo= puntos[0]->get_z();
+        for(int i=1; i<puntos.size(); i++){
+            if(puntos[i]->get_z()<minimo)
+            minimo=puntos[i]->get_z();
+        }
+        break;
+    
+    default:
+        break;
+    }
+    
+    return minimo;
+    
+}
+
+int Sistema::calcular_maximo(char coordenada){
+    int maximo=0;
+    switch (coordenada)
+    {
+    case 'x':
+        maximo= puntos[0]->get_x();
+        for(int i=1; i<puntos.size(); i++){
+            if(puntos[i]->get_x()>maximo)
+            maximo=puntos[i]->get_x();
+        }
+        break;
+    case 'y':
+        maximo= puntos[0]->get_y();
+        for(int i=1; i<puntos.size(); i++){
+            if(puntos[i]->get_y()>maximo)
+            maximo=puntos[i]->get_y();
+        }
+        break;
+    
+    case 'z':
+        maximo= puntos[0]->get_z();
+        for(int i=1; i<puntos.size(); i++){
+            if(puntos[i]->get_z()>maximo)
+            maximo=puntos[i]->get_z();
+        }
+        break;
+    
+    default:
+        break;
+    }
+    
+    return maximo;
 }
 
 void Sistema::cargarArchivo(string nombreArchivo){
@@ -81,8 +150,6 @@ void Sistema::cargarArchivo(string nombreArchivo){
             aux_vertices_objeto.push_back(vertice);
             cant_puntos++;
             contador++; // guardamos los vertices del objeto
-            
-            
           }
         }
 
@@ -142,7 +209,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
               encontrado=false;
               /* std::cout<<"Indice 1 "<<aux_vertices_objeto[indice1]->get_indice()<<endl;
               std::cout<<"Indice 2 "<<aux_vertices_objeto[indice2]->get_indice()<<endl; */
-              for(int i=0; i<cant_lineas;i++){
+              for(int i=0; i<lineas.size();i++){
                 
                 if(lineas[i]->vertices_iguales(*aux_vertices_objeto[indice1],*aux_vertices_objeto[indice2])){
                   
@@ -163,8 +230,8 @@ void Sistema::cargarArchivo(string nombreArchivo){
               if(!encontrado){
                 Linea *arista= new Linea(cant_lineas, aux_vertices_objeto[indice1], aux_vertices_objeto[indice2]);
                 lineas.push_back(arista);
-                aux_aristas_objeto.push_back(lineas[cant_lineas]);
-                aux_aristas_cara.push_back(lineas[cant_lineas]);
+                aux_aristas_objeto.push_back(arista);
+                aux_aristas_cara.push_back(arista);
                 cant_lineas++;
                 
               }
@@ -176,7 +243,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
             encontrado=false;
             /* std::cout<<"Indice 1 "<<aux_vertices_objeto[indice2]->get_indice()<<endl;
             std::cout<<"Indice 2 "<<aux_vertices_objeto[indiceInicial]->get_indice()<<endl; */
-            for(int i=0; i<cant_lineas;i++){
+            for(int i=0; i<lineas.size();i++){
               if(lineas[i]->vertices_iguales(*aux_vertices_objeto[indice2],*aux_vertices_objeto[indiceInicial])){
                 //std::cout<<"la arita se encontró, indice: "<<lineas[i]->get_indice()<<endl;
                 aux_aristas_cara.push_back(lineas[i]);
@@ -195,8 +262,8 @@ void Sistema::cargarArchivo(string nombreArchivo){
             if(!encontrado){
               Linea *arista= new Linea(cant_lineas, aux_vertices_objeto[indice2], aux_vertices_objeto[indiceInicial]);
               lineas.push_back(arista);
-              aux_aristas_objeto.push_back(lineas[cant_lineas]);
-              aux_aristas_cara.push_back(lineas[cant_lineas]);
+              aux_aristas_objeto.push_back(arista);
+              aux_aristas_cara.push_back(arista);
               cant_lineas++;
               
             }
@@ -204,7 +271,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
 
             Plano *cara= new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
             planos.push_back(cara);
-            aux_caras_objeto.push_back(planos[cant_planos]);
+            aux_caras_objeto.push_back(cara);
             cant_planos++;
             aux_aristas_cara.clear();
           }
@@ -231,7 +298,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
       archivo.close();
 
       if(archivo_correcto && fin_archivo){
-        std::cout<< "El objeto " <<objetos[cant_objetos-1]->get_nombre() << " ha sido cargado exitosamente desde el archivo "<< nombreArchivo<<endl;
+        std::cout<< "El objeto " <<nombreObjeto << " ha sido cargado exitosamente desde el archivo "<< nombreArchivo<<endl;
       }else{
         std::cout<< "El archivo "<<nombreArchivo<< " no contiene un objeto 3D valido"<<endl;
       }
@@ -244,22 +311,13 @@ void Sistema::cargarArchivo(string nombreArchivo){
 }
 
 void Sistema::listado(){
-  if(cant_objetos>0){
-    std::cout<< "Hay "<< cant_objetos << " en memoria" << endl;
-    for(int i=0; i<cant_objetos;i++){
+  if(objetos.size()>0){
+    std::cout<< "Hay "<< objetos.size() << " en memoria" << endl;
+    for(int i=0; i<objetos.size();i++){
       cout<<objetos[i]->to_string();
     }
 
-    cout<<"Puntos\n\n";
-    for(int i=0; i<cant_puntos; i++){
-      cout<< "indice: "<<puntos[i]->get_indice()<<endl;
-      cout<< puntos[i]->get_x()<<" "<<puntos[i]->get_y()<<" "<<puntos[i]->get_z()<<" "<<"\n";
-    }
-    cout<<"Lineas \n\n\n";
-    for(int i=0; i<cant_lineas; i++){
-      cout<< "indice: "<<lineas[i]->get_indice()<<endl;
-      cout<< lineas[i]->get_vertice1()->get_indice()<<"  "<<lineas[i]->get_vertice2()->get_indice()<<" "<<"\n";
-    }
+
   }else{
     std::cout<< "Ningun objeto ha sido cargado en memoria "<< endl;
   }  
@@ -267,19 +325,481 @@ void Sistema::listado(){
 }
 
 void Sistema::envolvente(){
-  std::cout<<"Comando ejecutado\n";
+  int indice_objeto= buscar_objeto("env_global");
+  vector<Punto *> aux_vertices_objeto;
+  vector<Linea *> aux_aristas_objeto;
+  vector<Plano *> aux_caras_objeto;
+  vector<Punto *> aux_vertices_cara;
+  vector<Linea *> aux_aristas_cara;
+
+  if(objetos.size()==0){
+    cout<<"Ningun objeto ha sido cargado en memoria"<<endl;
+  }else{
+
+    double xmin=calcular_minimo('x');
+    double ymin=calcular_minimo('y');
+    double zmin=calcular_minimo('z');
+    double xmax=calcular_maximo('x');
+    double ymax=calcular_maximo('y');
+    double zmax=calcular_maximo('z');
+;
+    // creamos los puntos del objeto envolvente y los guardamos
+
+    Punto *p0 = new Punto (cant_puntos, xmax, ymax, zmax );//pmax
+    puntos.push_back(p0);
+    aux_vertices_objeto.push_back(p0); 
+    cant_puntos++;
+
+    Punto *p1 = new Punto (cant_puntos, xmax, ymin, zmax );
+    puntos.push_back(p1 );
+    aux_vertices_objeto.push_back(p1 ); 
+    cant_puntos++;
+
+    Punto *p2 = new Punto (cant_puntos, xmin, ymin, zmax );
+    puntos.push_back(p2 );
+    aux_vertices_objeto.push_back(p2 ); 
+    cant_puntos++;
+
+    Punto *p3 = new Punto (cant_puntos, xmin, ymax, zmax );
+    puntos.push_back(p3 );
+    aux_vertices_objeto.push_back(p3 ); 
+    cant_puntos++;
+
+    Punto *p4 = new Punto (cant_puntos, xmin, ymax, zmin );
+    puntos.push_back(p4 );
+    aux_vertices_objeto.push_back(p4 ); 
+    cant_puntos++;
+
+    Punto *p5 = new Punto (cant_puntos, xmax, ymax, zmin );
+    puntos.push_back(p5 );
+    aux_vertices_objeto.push_back(p5 ); 
+    cant_puntos++;
+
+    Punto *p6 = new Punto (cant_puntos, xmax, ymin, zmin );
+    puntos.push_back(p6 );
+    aux_vertices_objeto.push_back(p6 ); 
+    cant_puntos++;
+
+    Punto *p7 = new Punto (cant_puntos, xmin, ymin, zmin );//pmin
+    puntos.push_back(p7 );
+    aux_vertices_objeto.push_back(p7 ); 
+    cant_puntos++;
+
+
+    // creamos las aristas necesarias 
+
+    Linea *a0 = new Linea(cant_lineas, p0, p1);
+    lineas.push_back(a0 );
+    aux_aristas_objeto.push_back(a0 );
+    cant_lineas++;
+
+    Linea *a1 = new Linea(cant_lineas, p1, p2);
+    lineas.push_back(a1 );
+    aux_aristas_objeto.push_back(a1 );
+    cant_lineas++;
+
+    Linea *a2 = new Linea(cant_lineas, p2, p3);
+    lineas.push_back(a2 );
+    aux_aristas_objeto.push_back(a2 );
+    cant_lineas++;
+
+    Linea *a3 = new Linea(cant_lineas, p3, p0);
+    lineas.push_back(a3 );
+    aux_aristas_objeto.push_back(a3 );
+    cant_lineas++;
+
+    Linea *a4  = new Linea(cant_lineas, p2, p7);
+    lineas.push_back(a4 );
+    aux_aristas_objeto.push_back(a4 );
+    cant_lineas++;
+
+    Linea *a5 = new Linea(cant_lineas, p7, p6);
+    lineas.push_back(a5 );
+    aux_aristas_objeto.push_back(a5 );
+    cant_lineas++;
+
+    Linea *a6 = new Linea(cant_lineas, p6, p1);
+    lineas.push_back(a6 );
+    aux_aristas_objeto.push_back(a6 );
+    cant_lineas++;
+
+    Linea *a7 = new Linea(cant_lineas, p6, p5);
+    lineas.push_back(a7 );
+    aux_aristas_objeto.push_back(a7 );
+    cant_lineas++;
+
+    Linea *a8 = new Linea(cant_lineas, p5, p0);
+    lineas.push_back(a8 );
+    aux_aristas_objeto.push_back(a8 );
+    cant_lineas++;
+
+    Linea *a9 = new Linea(cant_lineas, p3, p4);
+    lineas.push_back(a9 );
+    aux_aristas_objeto.push_back(a9 );
+    cant_lineas++;
+
+    Linea *a10 = new Linea(cant_lineas, p4, p5);
+    lineas.push_back(a10 );
+    aux_aristas_objeto.push_back(a10 );
+    cant_lineas++;
+
+    Linea *a11 = new Linea(cant_lineas, p4, p7);
+    lineas.push_back(a11 );
+    aux_aristas_objeto.push_back(a11 );
+    cant_lineas++;
+
+    //Creamos las caras
+
+    aux_aristas_cara.push_back(a0 );
+    aux_aristas_cara.push_back(a1 );
+    aux_aristas_cara.push_back(a2 );
+    aux_aristas_cara.push_back(a3 );
+    aux_vertices_cara.push_back(p0 );
+    aux_vertices_cara.push_back(p1 );
+    aux_vertices_cara.push_back(p2 );
+    aux_vertices_cara.push_back(p3 );
+    Plano *c0 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c0 );
+    aux_caras_objeto.push_back(c0 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a1 );
+    aux_aristas_cara.push_back(a4 );
+    aux_aristas_cara.push_back(a5 );
+    aux_aristas_cara.push_back(a6 );
+    aux_vertices_cara.push_back(p1 );
+    aux_vertices_cara.push_back(p2 );
+    aux_vertices_cara.push_back(p7 );
+    aux_vertices_cara.push_back(p6 );
+    Plano *c1 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c1 );
+    aux_caras_objeto.push_back(c1 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a0 );
+    aux_aristas_cara.push_back(a6 );
+    aux_aristas_cara.push_back(a7 );
+    aux_aristas_cara.push_back(a8 );
+    aux_vertices_cara.push_back(p0 );
+    aux_vertices_cara.push_back(p1 );
+    aux_vertices_cara.push_back(p6 );
+    aux_vertices_cara.push_back(p5 );
+    Plano *c2 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c2 );
+    aux_caras_objeto.push_back(c2 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a3 );
+    aux_aristas_cara.push_back(a9 );
+    aux_aristas_cara.push_back(a10 );
+    aux_aristas_cara.push_back(a8 );
+    aux_vertices_cara.push_back(p0 );
+    aux_vertices_cara.push_back(p3 );
+    aux_vertices_cara.push_back(p4 );
+    aux_vertices_cara.push_back(p5 );
+    Plano *c3 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c3 );
+    aux_caras_objeto.push_back(c3 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a2 );
+    aux_aristas_cara.push_back(a9 );
+    aux_aristas_cara.push_back(a11 );
+    aux_aristas_cara.push_back(a4 );
+    aux_vertices_cara.push_back(p2 );
+    aux_vertices_cara.push_back(p3 );
+    aux_vertices_cara.push_back(p4 );
+    aux_vertices_cara.push_back(p7 );
+    Plano *c4 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c4 );
+    aux_caras_objeto.push_back(c4 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a10 );
+    aux_aristas_cara.push_back(a7 );
+    aux_aristas_cara.push_back(a5 );
+    aux_aristas_cara.push_back(a11 );
+    aux_vertices_cara.push_back(p4 );
+    aux_vertices_cara.push_back(p5 );
+    aux_vertices_cara.push_back(p6 );
+    aux_vertices_cara.push_back(p7 );
+    Plano *c5 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c5 );
+    aux_caras_objeto.push_back(c5 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+    
+
+    if(indice_objeto!=-1){
+      //No esta funcionando bien (no permite cargar luego de borrar)
+      Objeto *temporal = objetos[indice_objeto];
+      objetos.erase(objetos.begin()+indice_objeto);
+      delete temporal;
+    }
+      
+    Objeto *envolvente= new Objeto(cant_objetos, "env_global", aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto);
+    objetos.push_back(envolvente);
+    cant_objetos++;
+    envolvente->set_envolvente(envolvente);
+    
+      
+
+    cout<< "La caja envolvente de los objetos en memoria se ha generado con el nombre env_global y se ha agregado a los objetos en memoria."<<endl;
+  }
 }
 
-void Sistema::envolventeObjeto(){
-  std::cout<<"Comando ejecutado\n";
+void Sistema::envolventeObjeto(string nombreObjeto){
+  int indice_objeto= buscar_objeto(nombreObjeto);
+  vector<Punto *> aux_vertices_objeto;
+  vector<Linea *> aux_aristas_objeto;
+  vector<Plano *> aux_caras_objeto;
+  vector<Punto *> aux_vertices_cara;
+  vector<Linea *> aux_aristas_cara;
+
+  if(indice_objeto==-1){
+    cout<<"El objeto "<<nombreObjeto<<" no ha sido cargado en memoria"<<endl;
+  }else{
+    double xmin=objetos[indice_objeto]->calcular_minimo('x');
+    double ymin=objetos[indice_objeto]->calcular_minimo('y');
+    double zmin=objetos[indice_objeto]->calcular_minimo('z');
+    double xmax=objetos[indice_objeto]->calcular_maximo('x');
+    double ymax=objetos[indice_objeto]->calcular_maximo('y');
+    double zmax=objetos[indice_objeto]->calcular_maximo('z');
+
+    // creamos los puntos del objeto envolvente y los guardamos
+
+    Punto *p0 = new Punto (cant_puntos, xmax, ymax, zmax );//pmax
+    puntos.push_back(p0);
+    aux_vertices_objeto.push_back(p0); 
+    cant_puntos++;
+
+    Punto *p1 = new Punto (cant_puntos, xmax, ymin, zmax );
+    puntos.push_back(p1 );
+    aux_vertices_objeto.push_back(p1 ); 
+    cant_puntos++;
+
+    Punto *p2 = new Punto (cant_puntos, xmin, ymin, zmax );
+    puntos.push_back(p2 );
+    aux_vertices_objeto.push_back(p2 ); 
+    cant_puntos++;
+
+    Punto *p3 = new Punto (cant_puntos, xmin, ymax, zmax );
+    puntos.push_back(p3 );
+    aux_vertices_objeto.push_back(p3 ); 
+    cant_puntos++;
+
+    Punto *p4 = new Punto (cant_puntos, xmin, ymax, zmin );
+    puntos.push_back(p4 );
+    aux_vertices_objeto.push_back(p4 ); 
+    cant_puntos++;
+
+    Punto *p5 = new Punto (cant_puntos, xmax, ymax, zmin );
+    puntos.push_back(p5 );
+    aux_vertices_objeto.push_back(p5 ); 
+    cant_puntos++;
+
+    Punto *p6 = new Punto (cant_puntos, xmax, ymin, zmin );
+    puntos.push_back(p6 );
+    aux_vertices_objeto.push_back(p6 ); 
+    cant_puntos++;
+
+    Punto *p7 = new Punto (cant_puntos, xmin, ymin, zmin );//pmin
+    puntos.push_back(p7 );
+    aux_vertices_objeto.push_back(p7 ); 
+    cant_puntos++;
+
+    // creamos las aristas necesarias 
+
+    Linea *a0 = new Linea(cant_lineas, p0, p1);
+    lineas.push_back(a0 );
+    aux_aristas_objeto.push_back(a0 );
+    cant_lineas++;
+
+    Linea *a1 = new Linea(cant_lineas, p1, p2);
+    lineas.push_back(a1 );
+    aux_aristas_objeto.push_back(a1 );
+    cant_lineas++;
+
+    Linea *a2 = new Linea(cant_lineas, p2, p3);
+    lineas.push_back(a2 );
+    aux_aristas_objeto.push_back(a2 );
+    cant_lineas++;
+
+    Linea *a3 = new Linea(cant_lineas, p3, p0);
+    lineas.push_back(a3 );
+    aux_aristas_objeto.push_back(a3 );
+    cant_lineas++;
+
+    Linea *a4  = new Linea(cant_lineas, p2, p7);
+    lineas.push_back(a4 );
+    aux_aristas_objeto.push_back(a4 );
+    cant_lineas++;
+
+    Linea *a5 = new Linea(cant_lineas, p7, p6);
+    lineas.push_back(a5 );
+    aux_aristas_objeto.push_back(a5 );
+    cant_lineas++;
+
+    Linea *a6 = new Linea(cant_lineas, p6, p1);
+    lineas.push_back(a6 );
+    aux_aristas_objeto.push_back(a6 );
+    cant_lineas++;
+
+    Linea *a7 = new Linea(cant_lineas, p6, p5);
+    lineas.push_back(a7 );
+    aux_aristas_objeto.push_back(a7 );
+    cant_lineas++;
+
+    Linea *a8 = new Linea(cant_lineas, p5, p0);
+    lineas.push_back(a8 );
+    aux_aristas_objeto.push_back(a8 );
+    cant_lineas++;
+
+    Linea *a9 = new Linea(cant_lineas, p3, p4);
+    lineas.push_back(a9 );
+    aux_aristas_objeto.push_back(a9 );
+    cant_lineas++;
+
+    Linea *a10 = new Linea(cant_lineas, p4, p5);
+    lineas.push_back(a10 );
+    aux_aristas_objeto.push_back(a10 );
+    cant_lineas++;
+
+    Linea *a11 = new Linea(cant_lineas, p4, p7);
+    lineas.push_back(a11 );
+    aux_aristas_objeto.push_back(a11 );
+    cant_lineas++;
+
+    //Creamos las caras
+
+    aux_aristas_cara.push_back(a0 );
+    aux_aristas_cara.push_back(a1 );
+    aux_aristas_cara.push_back(a2 );
+    aux_aristas_cara.push_back(a3 );
+    aux_vertices_cara.push_back(p0 );
+    aux_vertices_cara.push_back(p1 );
+    aux_vertices_cara.push_back(p2 );
+    aux_vertices_cara.push_back(p3 );
+    Plano *c0 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c0 );
+    aux_caras_objeto.push_back(c0 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a1 );
+    aux_aristas_cara.push_back(a4 );
+    aux_aristas_cara.push_back(a5 );
+    aux_aristas_cara.push_back(a6 );
+    aux_vertices_cara.push_back(p1 );
+    aux_vertices_cara.push_back(p2 );
+    aux_vertices_cara.push_back(p7 );
+    aux_vertices_cara.push_back(p6 );
+    Plano *c1 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c1 );
+    aux_caras_objeto.push_back(c1 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a0 );
+    aux_aristas_cara.push_back(a6 );
+    aux_aristas_cara.push_back(a7 );
+    aux_aristas_cara.push_back(a8 );
+    aux_vertices_cara.push_back(p0 );
+    aux_vertices_cara.push_back(p1 );
+    aux_vertices_cara.push_back(p6 );
+    aux_vertices_cara.push_back(p5 );
+    Plano *c2 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c2 );
+    aux_caras_objeto.push_back(c2 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a3 );
+    aux_aristas_cara.push_back(a9 );
+    aux_aristas_cara.push_back(a10 );
+    aux_aristas_cara.push_back(a8 );
+    aux_vertices_cara.push_back(p0 );
+    aux_vertices_cara.push_back(p3 );
+    aux_vertices_cara.push_back(p4 );
+    aux_vertices_cara.push_back(p5 );
+    Plano *c3 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c3 );
+    aux_caras_objeto.push_back(c3 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a2 );
+    aux_aristas_cara.push_back(a9 );
+    aux_aristas_cara.push_back(a11 );
+    aux_aristas_cara.push_back(a4 );
+    aux_vertices_cara.push_back(p2 );
+    aux_vertices_cara.push_back(p3 );
+    aux_vertices_cara.push_back(p4 );
+    aux_vertices_cara.push_back(p7 );
+    Plano *c4 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c4 );
+    aux_caras_objeto.push_back(c4 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+
+    aux_aristas_cara.push_back(a10 );
+    aux_aristas_cara.push_back(a7 );
+    aux_aristas_cara.push_back(a5 );
+    aux_aristas_cara.push_back(a11 );
+    aux_vertices_cara.push_back(p4 );
+    aux_vertices_cara.push_back(p5 );
+    aux_vertices_cara.push_back(p6 );
+    aux_vertices_cara.push_back(p7 );
+    Plano *c5 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    planos.push_back(c5 );
+    aux_caras_objeto.push_back(c5 );
+    cant_planos++;
+    aux_aristas_cara.clear();
+    aux_vertices_cara.clear();
+    
+    Objeto *envolvente= new Objeto(cant_objetos, "env_"+nombreObjeto, aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto);
+    objetos.push_back(envolvente);
+    cant_objetos++;
+    objetos[indice_objeto]->set_envolvente(envolvente);
+    envolvente->set_envolvente(envolvente);
+
+    cout<< " La caja envolvente del objeto "<< nombreObjeto <<" se ha generado con el nombre env_"<<nombreObjeto<<" y se ha agregado a los objetos en memoria."<<endl;
+
+  }
+
 }
 
-
-void Sistema::descargarObjeto(){
-  std::cout<<"Comando ejecutado\n";
+void Sistema::descargarObjeto(string nombreObjeto){ //No esta funcionando bien
+  int indiceObjeto= buscar_objeto(nombreObjeto);
+  cout<<"indice del objeto a descargar: "<<indiceObjeto<<endl;
+  if(indiceObjeto==-1){
+    cout<<"El objeto "<<nombreObjeto<<" no ha sido cargado en memoria"<<endl;
+  }else{
+    Objeto *temporal = objetos[indiceObjeto];
+    objetos.erase(objetos.begin()+indiceObjeto);
+    delete temporal;
+    cout<<"El objeto "<<nombreObjeto<<" ha sido eliminado de la memoria de trabajo\n";
+  }
+  
 }
 
-void Sistema::guardarObjetoArchivo(){
+void Sistema::guardarObjetoArchivo(string nombreObjeto, string nombreArchivo){
   std::cout<<"Comando ejecutado\n";
   
 }

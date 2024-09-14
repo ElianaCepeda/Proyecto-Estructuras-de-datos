@@ -17,6 +17,12 @@ Linea::Linea(int indice, Punto* vertice1, Punto* vertice2){
     this->esta_en_caras.clear();
  */}
 
+ Linea::~Linea(){
+    /* delete vertice1;
+    delete vertice2;  */
+    cout<<"Linea destruida"<<endl;
+ }
+
 int Linea::get_indice(){
     return indice;
 

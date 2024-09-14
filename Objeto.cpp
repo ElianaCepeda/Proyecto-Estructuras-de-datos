@@ -14,6 +14,32 @@ Objeto::Objeto(int indice, string nombre, vector<Punto *> vertices, vector<Linea
     this->envolvente=NULL;
 }
 
+Objeto::~Objeto(){
+    Plano* plano_temporal;
+    for(int i=0; i< caras.size(); i++){
+        plano_temporal=caras[i];
+        delete plano_temporal;
+    }
+    caras.clear();
+
+    Linea* linea_temporal;
+    for(int i=0; i<aristas.size(); i++){
+        linea_temporal=aristas[i];
+        delete linea_temporal;
+    }
+    aristas.clear();
+    
+    Punto* punto_temporal;
+    for(int i=0; i<vertices.size(); i++){
+        punto_temporal=vertices[i];
+        delete punto_temporal;
+    }
+    vertices.clear();
+
+    
+    cout<<"Objeto destruido"<<endl;
+}
+
 int Objeto::get_indice(){
     return indice;
 }

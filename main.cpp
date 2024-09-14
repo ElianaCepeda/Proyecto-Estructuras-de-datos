@@ -88,7 +88,7 @@ int main()
             }
             else if (index == 2)
             {
-                sistema.envolventeObjeto();
+                sistema.envolventeObjeto(tokens[1]);
             }
             else
             {
@@ -99,7 +99,7 @@ int main()
         {
             if (index == 2)
             {
-                sistema.descargarObjeto();
+                sistema.descargarObjeto(tokens[1]);
             }
             else
             {
@@ -110,7 +110,7 @@ int main()
         {
             if (index == 3)
             {
-                sistema.guardarObjetoArchivo();
+                sistema.guardarObjetoArchivo(tokens[1], tokens[2]);
             }
             else
             {
