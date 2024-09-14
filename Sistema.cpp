@@ -196,8 +196,6 @@ void Sistema::cargarArchivo(string nombreArchivo){
             indiceInicial=indice1;
             aux_vertices_cara.push_back(aux_vertices_objeto[indice1]); // guardamos en los vertices de la cara
 
-            
-            
             //std::cout<<"Cantidad de vertices por cara: "<<cant_vertices_cara<<endl;
             for(int i=0; i<cant_vertices_cara-1 ; i++){
               getline(input_stringstream, svertice2, ' ');
@@ -206,14 +204,14 @@ void Sistema::cargarArchivo(string nombreArchivo){
               aux_vertices_cara.push_back(aux_vertices_objeto[indice2]); // guardamos los vertices de la cara
 
 
-              encontrado=false;
-              /* std::cout<<"Indice 1 "<<aux_vertices_objeto[indice1]->get_indice()<<endl;
-              std::cout<<"Indice 2 "<<aux_vertices_objeto[indice2]->get_indice()<<endl; */
+             /*  encontrado=false;
+              std::cout<<"Indice 1 "<<aux_vertices_objeto[indice1]->get_indice()<<endl;
+              std::cout<<"Indice 2 "<<aux_vertices_objeto[indice2]->get_indice()<<endl;
               for(int i=0; i<lineas.size();i++){
                 
                 if(lineas[i]->vertices_iguales(*aux_vertices_objeto[indice1],*aux_vertices_objeto[indice2])){
                   
-                  //std::cout<<"la arita se encontró, indice: "<<lineas[i]->get_indice()<<endl;
+                  std::cout<<"la arita se encontró, indice: "<<lineas[i]->get_indice()<<endl;
                   aux_aristas_cara.push_back(lineas[i]);
                   int encontrado2=false;
                   for(int j=0; j< aux_aristas_objeto.size(); j++){
@@ -225,24 +223,24 @@ void Sistema::cargarArchivo(string nombreArchivo){
 
                   encontrado=true;
                 }  
-              } 
+              }  */
 
-              if(!encontrado){
+              //if(!encontrado){
                 Linea *arista= new Linea(cant_lineas, aux_vertices_objeto[indice1], aux_vertices_objeto[indice2]);
                 lineas.push_back(arista);
                 aux_aristas_objeto.push_back(arista);
                 aux_aristas_cara.push_back(arista);
                 cant_lineas++;
                 
-              }
+              //}
 
               indice1=indice2;
               
             }
 
-            encontrado=false;
-            /* std::cout<<"Indice 1 "<<aux_vertices_objeto[indice2]->get_indice()<<endl;
-            std::cout<<"Indice 2 "<<aux_vertices_objeto[indiceInicial]->get_indice()<<endl; */
+            /* encontrado=false;
+            std::cout<<"Indice 1 "<<aux_vertices_objeto[indice2]->get_indice()<<endl;
+            std::cout<<"Indice 2 "<<aux_vertices_objeto[indiceInicial]->get_indice()<<endl;
             for(int i=0; i<lineas.size();i++){
               if(lineas[i]->vertices_iguales(*aux_vertices_objeto[indice2],*aux_vertices_objeto[indiceInicial])){
                 //std::cout<<"la arita se encontró, indice: "<<lineas[i]->get_indice()<<endl;
@@ -259,14 +257,14 @@ void Sistema::cargarArchivo(string nombreArchivo){
               }  
             } 
 
-            if(!encontrado){
+            if(!encontrado){ */
               Linea *arista= new Linea(cant_lineas, aux_vertices_objeto[indice2], aux_vertices_objeto[indiceInicial]);
               lineas.push_back(arista);
               aux_aristas_objeto.push_back(arista);
               aux_aristas_cara.push_back(arista);
               cant_lineas++;
               
-            }
+            //}
 
 
             Plano *cara= new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
@@ -800,7 +798,42 @@ void Sistema::descargarObjeto(string nombreObjeto){ //No esta funcionando bien
 }
 
 void Sistema::guardarObjetoArchivo(string nombreObjeto, string nombreArchivo){
-  std::cout<<"Comando ejecutado\n";
+  int indice=buscar_objeto(nombreObjeto);
+  Objeto* obj_temp= objetos[indice];
+  if(indice==-1){
+    cout<<"El objeto "<<nombreObjeto<<" no ha sido cargado en memoria."<<endl;
+  }else{
+    ofstream file (nombreArchivo, std::ofstream::out);
+    int cant_vertices_objeto=obj_temp->get_vertices().size();
+    int cant_caras_objeto=obj_temp->get_caras().size();
+    if(file.is_open()){
+      file<<nombreObjeto<<endl;
+      file<<cant_vertices_objeto<<endl;
+      for(int i=0; i<cant_vertices_objeto;i++){
+        file<<obj_temp->get_vertices()[i]->get_x()<<" "<<obj_temp->get_vertices()[i]->get_y()<<" "<<obj_temp->get_vertices()[i]->get_z()<<endl;
+      }
+
+      string cara;
+      for(int i=0; i<cant_caras_objeto;i++){
+        int cant_vertices_cara=obj_temp->get_caras()[i]->get_aristas().size();
+        cara.clear();
+        cara+= to_string(cant_vertices_cara);
+        for(int j=0; j<cant_vertices_cara;j++){
+          for(int k=0; k<obj_temp->get_vertices().size();k++){
+            if(obj_temp->get_caras()[i]->get_aristas()[j]->get_vertice1()==obj_temp->get_vertices()[k]){
+            }
+              
+          }
+        }
+
+        file<<cara<<endl;
+      }
+    }
+    file<<"-1"<<endl;
+    file.close();
+    cout<<"La informacion del objeto "<<nombreObjeto<<" ha sido guardado esxitosamente en el archivo "<<nombreArchivo<<endl;
+
+  }
   
 }
 
