@@ -136,7 +136,7 @@ int main()
         {
             if (index == 2)
             {
-                sistema.v_cercanos_caja();
+                sistema.v_cercanos_caja(tokens[1]);
             }
             else
             {

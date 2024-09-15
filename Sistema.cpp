@@ -1043,11 +1043,53 @@ void Sistema::v_cercano(string px, string py, string pz){
     }
   }
 
-  std::cout<<"Comando ejecutado\n";
 }
 
-void Sistema::v_cercanos_caja(){
-  std::cout<<"Comando ejecutado\n";
+void Sistema::v_cercanos_caja(string nombreObjeto){
+  int indiceObjeto = buscar_objeto(nombreObjeto);
+  bool parametros_correctos = true;
+
+  if (indiceObjeto == -1)
+  {
+    cout << "El objeto " << nombreObjeto << " no ha sido cargado en memoria" << endl;
+  }
+  else
+  {
+    Objeto *envolvente = objetos[indiceObjeto]->get_envolvente();
+    Objeto *objeto=objetos[indiceObjeto];
+    if(envolvente == nullptr){
+      cout<<"La envolvente de "<<nombreObjeto<<" no ha sido calculada"<<endl;
+    }else{
+      cout<<"Esquina\t\tVertice\t\tDistancia"<<endl;
+      for(int i=0; i<envolvente->get_vertices().size();i++){
+        double x;
+        double y;
+        double z;
+        x=envolvente->get_vertices()[i]->get_x();
+        y=envolvente->get_vertices()[i]->get_y();
+        z=envolvente->get_vertices()[i]->get_z();
+        double menor=calcular_distancia(x,y,z, *(objeto->get_vertices()[0]));
+        double distancia;
+        int indice_vertice;
+        
+        
+        for (int j = 0; j < objeto->get_vertices().size(); j++)
+        {
+          distancia = calcular_distancia(x,y,z, *(objeto->get_vertices()[j]));
+          if (distancia <= menor)
+          {
+            menor = distancia;
+            indice_vertice = j;
+          }
+        }
+        cout<<i+1<<" ( "<<x<<" "<<y<<" "<<z<<" )\t"
+            <<indice_vertice<<" ( "<<objetos[indiceObjeto]->get_vertices()[indice_vertice]->get_x()<<" "<<objetos[indiceObjeto]->get_vertices()[indice_vertice]->get_y()<<" "<<objetos[indiceObjeto]->get_vertices()[indice_vertice]->get_z()<<" )\t"
+           <<menor<<endl;
+      }
+    }
+  
+  }
+  
 }
 
 void Sistema::ruta_cortaVertices(){
