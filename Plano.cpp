@@ -15,11 +15,6 @@ Plano::Plano(int indice, vector<Linea *> aristas, vector<Punto *> vertices){
     //this->esta_en_objetos.clear();
 }
 
-Plano::~Plano(){
-    /* aristas.clear();
-    vertices.clear(); */
-    cout<<"Plano destruido"<<endl;
-}
 
 int Plano::get_idice(){
     return indice;

@@ -323,12 +323,22 @@ void Sistema::listado(){
 }
 
 void Sistema::envolvente(){
-  int indice_objeto= buscar_objeto("env_global");
   vector<Punto *> aux_vertices_objeto;
   vector<Linea *> aux_aristas_objeto;
   vector<Plano *> aux_caras_objeto;
-  vector<Punto *> aux_vertices_cara;
-  vector<Linea *> aux_aristas_cara;
+  vector<Punto *> aux_vertices_cara0;
+  vector<Linea *> aux_aristas_cara0;
+  vector<Punto *> aux_vertices_cara1;
+  vector<Linea *> aux_aristas_cara1;
+  vector<Punto *> aux_vertices_cara2;
+  vector<Linea *> aux_aristas_cara2;
+  vector<Punto *> aux_vertices_cara3;
+  vector<Linea *> aux_aristas_cara3;
+  vector<Punto *> aux_vertices_cara4;
+  vector<Linea *> aux_aristas_cara4;
+  vector<Punto *> aux_vertices_cara5;
+  vector<Linea *> aux_aristas_cara5;
+
 
   if(objetos.size()==0){
     cout<<"Ningun objeto ha sido cargado en memoria"<<endl;
@@ -340,8 +350,15 @@ void Sistema::envolvente(){
     double xmax=calcular_maximo('x');
     double ymax=calcular_maximo('y');
     double zmax=calcular_maximo('z');
+
+    int indice_objeto= buscar_objeto("env_global");
+    if(indice_objeto!=-1){
+      Objeto *temporal = objetos[indice_objeto];
+      objetos.erase(objetos.begin()+indice_objeto);
+      delete temporal;
+    }
 ;
-    // creamos los puntos del objeto envolvente y los guardamos
+   // creamos los puntos del objeto envolvente y los guardamos
 
     Punto *p0 = new Punto (cant_puntos, xmax, ymax, zmax );//pmax
     puntos.push_back(p0);
@@ -383,7 +400,6 @@ void Sistema::envolvente(){
     aux_vertices_objeto.push_back(p7 ); 
     cant_puntos++;
 
-
     // creamos las aristas necesarias 
 
     Linea *a0 = new Linea(cant_lineas, p0, p1);
@@ -406,145 +422,185 @@ void Sistema::envolvente(){
     aux_aristas_objeto.push_back(a3 );
     cant_lineas++;
 
-    Linea *a4  = new Linea(cant_lineas, p2, p7);
-    lineas.push_back(a4 );
-    aux_aristas_objeto.push_back(a4 );
+    Linea *a4  = new Linea(cant_lineas, p2, p1);
+    lineas.push_back(a4);
+    aux_aristas_objeto.push_back(a4);
     cant_lineas++;
 
-    Linea *a5 = new Linea(cant_lineas, p7, p6);
+    Linea *a5 = new Linea(cant_lineas, p1, p6);
     lineas.push_back(a5 );
     aux_aristas_objeto.push_back(a5 );
     cant_lineas++;
 
-    Linea *a6 = new Linea(cant_lineas, p6, p1);
+    Linea *a6 = new Linea(cant_lineas, p6, p7);
     lineas.push_back(a6 );
     aux_aristas_objeto.push_back(a6 );
     cant_lineas++;
 
-    Linea *a7 = new Linea(cant_lineas, p6, p5);
+    Linea *a7 = new Linea(cant_lineas, p7, p2);
     lineas.push_back(a7 );
     aux_aristas_objeto.push_back(a7 );
     cant_lineas++;
 
-    Linea *a8 = new Linea(cant_lineas, p5, p0);
+    Linea *a8 = new Linea(cant_lineas, p6, p1);
     lineas.push_back(a8 );
     aux_aristas_objeto.push_back(a8 );
     cant_lineas++;
 
-    Linea *a9 = new Linea(cant_lineas, p3, p4);
+    Linea *a9 = new Linea(cant_lineas, p1, p0);
     lineas.push_back(a9 );
     aux_aristas_objeto.push_back(a9 );
     cant_lineas++;
 
-    Linea *a10 = new Linea(cant_lineas, p4, p5);
+    Linea *a10 = new Linea(cant_lineas, p0, p5);
     lineas.push_back(a10 );
     aux_aristas_objeto.push_back(a10 );
     cant_lineas++;
 
-    Linea *a11 = new Linea(cant_lineas, p4, p7);
+    Linea *a11 = new Linea(cant_lineas, p5, p6);
     lineas.push_back(a11 );
     aux_aristas_objeto.push_back(a11 );
     cant_lineas++;
 
-    //Creamos las caras
+    Linea *a12 = new Linea(cant_lineas, p3, p0);
+    lineas.push_back(a12 );
+    aux_aristas_objeto.push_back(a12 );
+    cant_lineas++;
 
-    aux_aristas_cara.push_back(a0 );
-    aux_aristas_cara.push_back(a1 );
-    aux_aristas_cara.push_back(a2 );
-    aux_aristas_cara.push_back(a3 );
-    aux_vertices_cara.push_back(p0 );
-    aux_vertices_cara.push_back(p1 );
-    aux_vertices_cara.push_back(p2 );
-    aux_vertices_cara.push_back(p3 );
-    Plano *c0 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    Linea *a13 = new Linea(cant_lineas, p0, p5);
+    lineas.push_back(a13 );
+    aux_aristas_objeto.push_back(a13 );
+    cant_lineas++;
+
+    Linea *a14 = new Linea(cant_lineas, p5, p4);
+    lineas.push_back(a14 );
+    aux_aristas_objeto.push_back(a14 );
+    cant_lineas++;
+
+    Linea *a15 = new Linea(cant_lineas, p4, p3);
+    lineas.push_back(a15 );
+    aux_aristas_objeto.push_back(a15 );
+    cant_lineas++;
+
+    Linea *a16  = new Linea(cant_lineas, p3, p2);
+    lineas.push_back(a16 );
+    aux_aristas_objeto.push_back(a16 );
+    cant_lineas++;
+
+    Linea *a17 = new Linea(cant_lineas, p2, p7);
+    lineas.push_back(a17 );
+    aux_aristas_objeto.push_back(a17 );
+    cant_lineas++;
+
+    Linea *a18 = new Linea(cant_lineas, p7, p4);
+    lineas.push_back(a18 );
+    aux_aristas_objeto.push_back(a18 );
+    cant_lineas++;
+
+    Linea *a19 = new Linea(cant_lineas, p4, p3);
+    lineas.push_back(a19 );
+    aux_aristas_objeto.push_back(a19 );
+    cant_lineas++;
+
+    Linea *a20 = new Linea(cant_lineas, p7, p6);
+    lineas.push_back(a20 );
+    aux_aristas_objeto.push_back(a20 );
+    cant_lineas++;
+
+    Linea *a21 = new Linea(cant_lineas, p6, p5);
+    lineas.push_back(a21 );
+    aux_aristas_objeto.push_back(a21 );
+    cant_lineas++;
+
+    Linea *a22 = new Linea(cant_lineas, p5, p4);
+    lineas.push_back(a22 );
+    aux_aristas_objeto.push_back(a22 );
+    cant_lineas++;
+
+    Linea *a23 = new Linea(cant_lineas, p4, p7);
+    lineas.push_back(a23 );
+    aux_aristas_objeto.push_back(a23 );
+    cant_lineas++;
+
+    //Creamos las caras
+    aux_aristas_cara0.push_back(a0 );
+    aux_aristas_cara0.push_back(a1 );
+    aux_aristas_cara0.push_back(a2 );
+    aux_aristas_cara0.push_back(a3 );
+    aux_vertices_cara0.push_back(p0 );
+    aux_vertices_cara0.push_back(p1 );
+    aux_vertices_cara0.push_back(p2 );
+    aux_vertices_cara0.push_back(p3 );
+    Plano *c0 =new Plano(cant_planos, aux_aristas_cara0, aux_vertices_cara0);
     planos.push_back(c0 );
     aux_caras_objeto.push_back(c0 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
 
-    aux_aristas_cara.push_back(a1 );
-    aux_aristas_cara.push_back(a4 );
-    aux_aristas_cara.push_back(a5 );
-    aux_aristas_cara.push_back(a6 );
-    aux_vertices_cara.push_back(p1 );
-    aux_vertices_cara.push_back(p2 );
-    aux_vertices_cara.push_back(p7 );
-    aux_vertices_cara.push_back(p6 );
-    Plano *c1 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    aux_aristas_cara1.push_back(a4 );
+    aux_aristas_cara1.push_back(a5 );
+    aux_aristas_cara1.push_back(a6 );
+    aux_aristas_cara1.push_back(a7 );
+    aux_vertices_cara1.push_back(p2 );
+    aux_vertices_cara1.push_back(p1 );
+    aux_vertices_cara1.push_back(p6 );
+    aux_vertices_cara1.push_back(p7 );
+    Plano *c1 =new Plano(cant_planos, aux_aristas_cara1, aux_vertices_cara1);
     planos.push_back(c1 );
     aux_caras_objeto.push_back(c1 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
 
-    aux_aristas_cara.push_back(a0 );
-    aux_aristas_cara.push_back(a6 );
-    aux_aristas_cara.push_back(a7 );
-    aux_aristas_cara.push_back(a8 );
-    aux_vertices_cara.push_back(p0 );
-    aux_vertices_cara.push_back(p1 );
-    aux_vertices_cara.push_back(p6 );
-    aux_vertices_cara.push_back(p5 );
-    Plano *c2 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    aux_aristas_cara2.push_back(a8 );
+    aux_aristas_cara2.push_back(a9 );
+    aux_aristas_cara2.push_back(a10 );
+    aux_aristas_cara2.push_back(a11 );
+    aux_vertices_cara2.push_back(p6 );
+    aux_vertices_cara2.push_back(p1 );
+    aux_vertices_cara2.push_back(p0 );
+    aux_vertices_cara2.push_back(p5 );
+    Plano *c2 =new Plano(cant_planos, aux_aristas_cara2, aux_vertices_cara2);
     planos.push_back(c2 );
     aux_caras_objeto.push_back(c2 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
-
-    aux_aristas_cara.push_back(a3 );
-    aux_aristas_cara.push_back(a9 );
-    aux_aristas_cara.push_back(a10 );
-    aux_aristas_cara.push_back(a8 );
-    aux_vertices_cara.push_back(p0 );
-    aux_vertices_cara.push_back(p3 );
-    aux_vertices_cara.push_back(p4 );
-    aux_vertices_cara.push_back(p5 );
-    Plano *c3 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    
+    aux_aristas_cara3.push_back(a12 );
+    aux_aristas_cara3.push_back(a13 );
+    aux_aristas_cara3.push_back(a14 );
+    aux_aristas_cara3.push_back(a15 );
+    aux_vertices_cara3.push_back(p3 );
+    aux_vertices_cara3.push_back(p0 );
+    aux_vertices_cara3.push_back(p5 );
+    aux_vertices_cara3.push_back(p4 );
+    Plano *c3 =new Plano(cant_planos, aux_aristas_cara3, aux_vertices_cara3);
     planos.push_back(c3 );
     aux_caras_objeto.push_back(c3 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
 
-    aux_aristas_cara.push_back(a2 );
-    aux_aristas_cara.push_back(a9 );
-    aux_aristas_cara.push_back(a11 );
-    aux_aristas_cara.push_back(a4 );
-    aux_vertices_cara.push_back(p2 );
-    aux_vertices_cara.push_back(p3 );
-    aux_vertices_cara.push_back(p4 );
-    aux_vertices_cara.push_back(p7 );
-    Plano *c4 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    aux_aristas_cara4.push_back(a16 );
+    aux_aristas_cara4.push_back(a17 );
+    aux_aristas_cara4.push_back(a18 );
+    aux_aristas_cara4.push_back(a19 );
+    aux_vertices_cara4.push_back(p3 );
+    aux_vertices_cara4.push_back(p2 );
+    aux_vertices_cara4.push_back(p7 );
+    aux_vertices_cara4.push_back(p4 );
+    Plano *c4 =new Plano(cant_planos, aux_aristas_cara4, aux_vertices_cara4);
     planos.push_back(c4 );
     aux_caras_objeto.push_back(c4 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
 
-    aux_aristas_cara.push_back(a10 );
-    aux_aristas_cara.push_back(a7 );
-    aux_aristas_cara.push_back(a5 );
-    aux_aristas_cara.push_back(a11 );
-    aux_vertices_cara.push_back(p4 );
-    aux_vertices_cara.push_back(p5 );
-    aux_vertices_cara.push_back(p6 );
-    aux_vertices_cara.push_back(p7 );
-    Plano *c5 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    aux_aristas_cara5.push_back(a20 );
+    aux_aristas_cara5.push_back(a21 );
+    aux_aristas_cara5.push_back(a22 );
+    aux_aristas_cara5.push_back(a23 );
+    aux_vertices_cara5.push_back(p7 );
+    aux_vertices_cara5.push_back(p6 );
+    aux_vertices_cara5.push_back(p5 );
+    aux_vertices_cara5.push_back(p4 );
+    Plano *c5 =new Plano(cant_planos, aux_aristas_cara5, aux_vertices_cara5);
     planos.push_back(c5 );
     aux_caras_objeto.push_back(c5 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
-    
-
-    if(indice_objeto!=-1){
-      //No esta funcionando bien (no permite cargar luego de borrar)
-      Objeto *temporal = objetos[indice_objeto];
-      objetos.erase(objetos.begin()+indice_objeto);
-      delete temporal;
-    }
+  
       
     Objeto *envolvente= new Objeto(cant_objetos, "env_global", aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto);
     objetos.push_back(envolvente);
@@ -562,8 +618,18 @@ void Sistema::envolventeObjeto(string nombreObjeto){
   vector<Punto *> aux_vertices_objeto;
   vector<Linea *> aux_aristas_objeto;
   vector<Plano *> aux_caras_objeto;
-  vector<Punto *> aux_vertices_cara;
-  vector<Linea *> aux_aristas_cara;
+  vector<Punto *> aux_vertices_cara0;
+  vector<Linea *> aux_aristas_cara0;
+  vector<Punto *> aux_vertices_cara1;
+  vector<Linea *> aux_aristas_cara1;
+  vector<Punto *> aux_vertices_cara2;
+  vector<Linea *> aux_aristas_cara2;
+  vector<Punto *> aux_vertices_cara3;
+  vector<Linea *> aux_aristas_cara3;
+  vector<Punto *> aux_vertices_cara4;
+  vector<Linea *> aux_aristas_cara4;
+  vector<Punto *> aux_vertices_cara5;
+  vector<Linea *> aux_aristas_cara5;
 
   if(indice_objeto==-1){
     cout<<"El objeto "<<nombreObjeto<<" no ha sido cargado en memoria"<<endl;
@@ -639,137 +705,184 @@ void Sistema::envolventeObjeto(string nombreObjeto){
     aux_aristas_objeto.push_back(a3 );
     cant_lineas++;
 
-    Linea *a4  = new Linea(cant_lineas, p2, p7);
-    lineas.push_back(a4 );
-    aux_aristas_objeto.push_back(a4 );
+    Linea *a4  = new Linea(cant_lineas, p2, p1);
+    lineas.push_back(a4);
+    aux_aristas_objeto.push_back(a4);
     cant_lineas++;
 
-    Linea *a5 = new Linea(cant_lineas, p7, p6);
+    Linea *a5 = new Linea(cant_lineas, p1, p6);
     lineas.push_back(a5 );
     aux_aristas_objeto.push_back(a5 );
     cant_lineas++;
 
-    Linea *a6 = new Linea(cant_lineas, p6, p1);
+    Linea *a6 = new Linea(cant_lineas, p6, p7);
     lineas.push_back(a6 );
     aux_aristas_objeto.push_back(a6 );
     cant_lineas++;
 
-    Linea *a7 = new Linea(cant_lineas, p6, p5);
+    Linea *a7 = new Linea(cant_lineas, p7, p2);
     lineas.push_back(a7 );
     aux_aristas_objeto.push_back(a7 );
     cant_lineas++;
 
-    Linea *a8 = new Linea(cant_lineas, p5, p0);
+    Linea *a8 = new Linea(cant_lineas, p6, p1);
     lineas.push_back(a8 );
     aux_aristas_objeto.push_back(a8 );
     cant_lineas++;
 
-    Linea *a9 = new Linea(cant_lineas, p3, p4);
+    Linea *a9 = new Linea(cant_lineas, p1, p0);
     lineas.push_back(a9 );
     aux_aristas_objeto.push_back(a9 );
     cant_lineas++;
 
-    Linea *a10 = new Linea(cant_lineas, p4, p5);
+    Linea *a10 = new Linea(cant_lineas, p0, p5);
     lineas.push_back(a10 );
     aux_aristas_objeto.push_back(a10 );
     cant_lineas++;
 
-    Linea *a11 = new Linea(cant_lineas, p4, p7);
+    Linea *a11 = new Linea(cant_lineas, p5, p6);
     lineas.push_back(a11 );
     aux_aristas_objeto.push_back(a11 );
     cant_lineas++;
 
-    //Creamos las caras
+    Linea *a12 = new Linea(cant_lineas, p3, p0);
+    lineas.push_back(a12 );
+    aux_aristas_objeto.push_back(a12 );
+    cant_lineas++;
 
-    aux_aristas_cara.push_back(a0 );
-    aux_aristas_cara.push_back(a1 );
-    aux_aristas_cara.push_back(a2 );
-    aux_aristas_cara.push_back(a3 );
-    aux_vertices_cara.push_back(p0 );
-    aux_vertices_cara.push_back(p1 );
-    aux_vertices_cara.push_back(p2 );
-    aux_vertices_cara.push_back(p3 );
-    Plano *c0 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    Linea *a13 = new Linea(cant_lineas, p0, p5);
+    lineas.push_back(a13 );
+    aux_aristas_objeto.push_back(a13 );
+    cant_lineas++;
+
+    Linea *a14 = new Linea(cant_lineas, p5, p4);
+    lineas.push_back(a14 );
+    aux_aristas_objeto.push_back(a14 );
+    cant_lineas++;
+
+    Linea *a15 = new Linea(cant_lineas, p4, p3);
+    lineas.push_back(a15 );
+    aux_aristas_objeto.push_back(a15 );
+    cant_lineas++;
+
+    Linea *a16  = new Linea(cant_lineas, p3, p2);
+    lineas.push_back(a16 );
+    aux_aristas_objeto.push_back(a16 );
+    cant_lineas++;
+
+    Linea *a17 = new Linea(cant_lineas, p2, p7);
+    lineas.push_back(a17 );
+    aux_aristas_objeto.push_back(a17 );
+    cant_lineas++;
+
+    Linea *a18 = new Linea(cant_lineas, p7, p4);
+    lineas.push_back(a18 );
+    aux_aristas_objeto.push_back(a18 );
+    cant_lineas++;
+
+    Linea *a19 = new Linea(cant_lineas, p4, p3);
+    lineas.push_back(a19 );
+    aux_aristas_objeto.push_back(a19 );
+    cant_lineas++;
+
+    Linea *a20 = new Linea(cant_lineas, p7, p6);
+    lineas.push_back(a20 );
+    aux_aristas_objeto.push_back(a20 );
+    cant_lineas++;
+
+    Linea *a21 = new Linea(cant_lineas, p6, p5);
+    lineas.push_back(a21 );
+    aux_aristas_objeto.push_back(a21 );
+    cant_lineas++;
+
+    Linea *a22 = new Linea(cant_lineas, p5, p4);
+    lineas.push_back(a22 );
+    aux_aristas_objeto.push_back(a22 );
+    cant_lineas++;
+
+    Linea *a23 = new Linea(cant_lineas, p4, p7);
+    lineas.push_back(a23 );
+    aux_aristas_objeto.push_back(a23 );
+    cant_lineas++;
+
+    //Creamos las caras
+    aux_aristas_cara0.push_back(a0 );
+    aux_aristas_cara0.push_back(a1 );
+    aux_aristas_cara0.push_back(a2 );
+    aux_aristas_cara0.push_back(a3 );
+    aux_vertices_cara0.push_back(p0 );
+    aux_vertices_cara0.push_back(p1 );
+    aux_vertices_cara0.push_back(p2 );
+    aux_vertices_cara0.push_back(p3 );
+    Plano *c0 =new Plano(cant_planos, aux_aristas_cara0, aux_vertices_cara0);
     planos.push_back(c0 );
     aux_caras_objeto.push_back(c0 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
 
-    aux_aristas_cara.push_back(a1 );
-    aux_aristas_cara.push_back(a4 );
-    aux_aristas_cara.push_back(a5 );
-    aux_aristas_cara.push_back(a6 );
-    aux_vertices_cara.push_back(p1 );
-    aux_vertices_cara.push_back(p2 );
-    aux_vertices_cara.push_back(p7 );
-    aux_vertices_cara.push_back(p6 );
-    Plano *c1 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    aux_aristas_cara1.push_back(a4 );
+    aux_aristas_cara1.push_back(a5 );
+    aux_aristas_cara1.push_back(a6 );
+    aux_aristas_cara1.push_back(a7 );
+    aux_vertices_cara1.push_back(p2 );
+    aux_vertices_cara1.push_back(p1 );
+    aux_vertices_cara1.push_back(p6 );
+    aux_vertices_cara1.push_back(p7 );
+    Plano *c1 =new Plano(cant_planos, aux_aristas_cara1, aux_vertices_cara1);
     planos.push_back(c1 );
     aux_caras_objeto.push_back(c1 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
 
-    aux_aristas_cara.push_back(a0 );
-    aux_aristas_cara.push_back(a6 );
-    aux_aristas_cara.push_back(a7 );
-    aux_aristas_cara.push_back(a8 );
-    aux_vertices_cara.push_back(p0 );
-    aux_vertices_cara.push_back(p1 );
-    aux_vertices_cara.push_back(p6 );
-    aux_vertices_cara.push_back(p5 );
-    Plano *c2 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    aux_aristas_cara2.push_back(a8 );
+    aux_aristas_cara2.push_back(a9 );
+    aux_aristas_cara2.push_back(a10 );
+    aux_aristas_cara2.push_back(a11 );
+    aux_vertices_cara2.push_back(p6 );
+    aux_vertices_cara2.push_back(p1 );
+    aux_vertices_cara2.push_back(p0 );
+    aux_vertices_cara2.push_back(p5 );
+    Plano *c2 =new Plano(cant_planos, aux_aristas_cara2, aux_vertices_cara2);
     planos.push_back(c2 );
     aux_caras_objeto.push_back(c2 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
-
-    aux_aristas_cara.push_back(a3 );
-    aux_aristas_cara.push_back(a9 );
-    aux_aristas_cara.push_back(a10 );
-    aux_aristas_cara.push_back(a8 );
-    aux_vertices_cara.push_back(p0 );
-    aux_vertices_cara.push_back(p3 );
-    aux_vertices_cara.push_back(p4 );
-    aux_vertices_cara.push_back(p5 );
-    Plano *c3 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    
+    aux_aristas_cara3.push_back(a12 );
+    aux_aristas_cara3.push_back(a13 );
+    aux_aristas_cara3.push_back(a14 );
+    aux_aristas_cara3.push_back(a15 );
+    aux_vertices_cara3.push_back(p3 );
+    aux_vertices_cara3.push_back(p0 );
+    aux_vertices_cara3.push_back(p5 );
+    aux_vertices_cara3.push_back(p4 );
+    Plano *c3 =new Plano(cant_planos, aux_aristas_cara3, aux_vertices_cara3);
     planos.push_back(c3 );
     aux_caras_objeto.push_back(c3 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
 
-    aux_aristas_cara.push_back(a2 );
-    aux_aristas_cara.push_back(a9 );
-    aux_aristas_cara.push_back(a11 );
-    aux_aristas_cara.push_back(a4 );
-    aux_vertices_cara.push_back(p2 );
-    aux_vertices_cara.push_back(p3 );
-    aux_vertices_cara.push_back(p4 );
-    aux_vertices_cara.push_back(p7 );
-    Plano *c4 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    aux_aristas_cara4.push_back(a16 );
+    aux_aristas_cara4.push_back(a17 );
+    aux_aristas_cara4.push_back(a18 );
+    aux_aristas_cara4.push_back(a19 );
+    aux_vertices_cara4.push_back(p3 );
+    aux_vertices_cara4.push_back(p2 );
+    aux_vertices_cara4.push_back(p7 );
+    aux_vertices_cara4.push_back(p4 );
+    Plano *c4 =new Plano(cant_planos, aux_aristas_cara4, aux_vertices_cara4);
     planos.push_back(c4 );
     aux_caras_objeto.push_back(c4 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
 
-    aux_aristas_cara.push_back(a10 );
-    aux_aristas_cara.push_back(a7 );
-    aux_aristas_cara.push_back(a5 );
-    aux_aristas_cara.push_back(a11 );
-    aux_vertices_cara.push_back(p4 );
-    aux_vertices_cara.push_back(p5 );
-    aux_vertices_cara.push_back(p6 );
-    aux_vertices_cara.push_back(p7 );
-    Plano *c5 =new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
+    aux_aristas_cara5.push_back(a20 );
+    aux_aristas_cara5.push_back(a21 );
+    aux_aristas_cara5.push_back(a22 );
+    aux_aristas_cara5.push_back(a23 );
+    aux_vertices_cara5.push_back(p7 );
+    aux_vertices_cara5.push_back(p6 );
+    aux_vertices_cara5.push_back(p5 );
+    aux_vertices_cara5.push_back(p4 );
+    Plano *c5 =new Plano(cant_planos, aux_aristas_cara5, aux_vertices_cara5);
     planos.push_back(c5 );
     aux_caras_objeto.push_back(c5 );
     cant_planos++;
-    aux_aristas_cara.clear();
-    aux_vertices_cara.clear();
     
     Objeto *envolvente= new Objeto(cant_objetos, "env_"+nombreObjeto, aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto);
     objetos.push_back(envolvente);
@@ -783,7 +896,7 @@ void Sistema::envolventeObjeto(string nombreObjeto){
 
 }
 
-void Sistema::descargarObjeto(string nombreObjeto){ //No esta funcionando bien
+void Sistema::descargarObjeto(string nombreObjeto){ 
   int indiceObjeto= buscar_objeto(nombreObjeto);
   cout<<"indice del objeto a descargar: "<<indiceObjeto<<endl;
   if(indiceObjeto==-1){
@@ -821,6 +934,7 @@ void Sistema::guardarObjetoArchivo(string nombreObjeto, string nombreArchivo){
         for(int j=0; j<cant_vertices_cara;j++){
           for(int k=0; k<obj_temp->get_vertices().size();k++){
             if(obj_temp->get_caras()[i]->get_aristas()[j]->get_vertice1()==obj_temp->get_vertices()[k]){
+              cara+= " "+ to_string(k);
             }
               
           }
@@ -831,9 +945,10 @@ void Sistema::guardarObjetoArchivo(string nombreObjeto, string nombreArchivo){
     }
     file<<"-1"<<endl;
     file.close();
-    cout<<"La informacion del objeto "<<nombreObjeto<<" ha sido guardado esxitosamente en el archivo "<<nombreArchivo<<endl;
+    cout<<"La información del objeto "<<nombreObjeto<<" ha sido guardada exitosamente en el archivo "<<nombreArchivo<<endl;
 
   }
+
   
 }
 

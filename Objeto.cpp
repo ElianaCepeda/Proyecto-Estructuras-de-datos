@@ -36,8 +36,6 @@ Objeto::~Objeto(){
     }
     vertices.clear();
 
-    
-    cout<<"Objeto destruido"<<endl;
 }
 
 int Objeto::get_indice(){
