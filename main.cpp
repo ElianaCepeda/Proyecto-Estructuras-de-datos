@@ -121,7 +121,7 @@ int main()
         {
             if (index == 5)
             {
-                sistema.v_cercanoObjeto();
+                sistema.v_cercanoObjeto(tokens[1],tokens[2],tokens[3],tokens[4]);
             }
             else if (index == 4)
             {

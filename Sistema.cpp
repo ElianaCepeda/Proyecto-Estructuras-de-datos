@@ -8,6 +8,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 Sistema::Sistema(){
@@ -21,7 +22,11 @@ Sistema::Sistema(){
   cant_puntos=0;
 }
 
-int Sistema::calcular_distancia(Punto punto1, Punto punto2){}
+double Sistema::calcular_distancia(double x, double y, double z, Punto punto){
+  double distancia;
+  distancia= sqrt(pow(x-punto.get_x(),2)+pow(y-punto.get_y(),2)+pow(z-punto.get_z(),2));
+  return distancia;
+}
 
 int Sistema::buscar_objeto(string nombre){// si encuentra el indice lo devuelve, si no lo encuentra devuelve -1
   int indice=-1;
@@ -952,8 +957,47 @@ void Sistema::guardarObjetoArchivo(string nombreObjeto, string nombreArchivo){
   
 }
 
-void Sistema::v_cercanoObjeto(){
-  std::cout<<"Comando ejecutado\n";
+void Sistema::v_cercanoObjeto(string px, string py, string pz, string nombreObjeto)
+{
+  int indiceObjeto = buscar_objeto(nombreObjeto);
+  bool parametros_correctos = true;
+
+  if (indiceObjeto == -1)
+  {
+    cout << "El objeto " << nombreObjeto << " no ha sido cargado en memoria" << endl;
+  }
+  else
+  {
+    try
+    {
+      Objeto *objeto = objetos[indiceObjeto];
+      double x = stod(px);
+      double y = stod(py);
+      double z = stod(pz);
+      if (parametros_correctos)
+      {
+        double menor=calcular_distancia(x, y, z, *(objeto->get_vertices()[0]));
+        double distancia;
+        int indice_vertice;
+        for (int i = 0; i < objetos[indiceObjeto]->get_vertices().size(); i++)
+        {
+          distancia = calcular_distancia(x, y, z, *(objeto->get_vertices()[i]));
+          if (distancia <= menor)
+          {
+            menor = distancia;
+            indice_vertice = i;
+          }
+        }
+        cout << "El vertice " << indice_vertice << " ( " << objeto->get_vertices()[indice_vertice]->get_x() << " " << objeto->get_vertices()[indice_vertice]->get_y() << " " << objeto->get_vertices()[indice_vertice]->get_z() << " )"
+             << " del objeto " << nombreObjeto << " es el mas cercano al punto ( " << x << " " << y << " " << z << " ), a una distancia de valor " << menor << endl;
+      }
+    }
+    catch (exception &e)
+    {
+      parametros_correctos = false;
+      cout << "parametros del punto dado invalidos" << endl;
+    }
+  }
 }
 
 void Sistema::v_cercano(){
