@@ -40,7 +40,7 @@ public:
     void descargarObjeto(string nombreObjeto);
     void guardarObjetoArchivo(string nombreObjeto, string nombreArchivo);
     void v_cercanoObjeto(string px, string py, string pz, string nombreObjeto);
-    void v_cercano();
+    void v_cercano(string px, string py, string pz);
     void v_cercanos_caja();
     void ruta_cortaVertices();
     void ruta_cortaCentro();

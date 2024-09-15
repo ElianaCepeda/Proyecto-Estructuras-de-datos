@@ -1000,7 +1000,49 @@ void Sistema::v_cercanoObjeto(string px, string py, string pz, string nombreObje
   }
 }
 
-void Sistema::v_cercano(){
+void Sistema::v_cercano(string px, string py, string pz){
+  bool parametros_correctos=true;
+
+   if (objetos.size() == 0)
+  {
+    cout << "Ningun objeto ha sido cargado en memoria" << endl;
+  }
+  else
+  {
+    try
+    {
+      double x = stod(px);
+      double y = stod(py);
+      double z = stod(pz);
+      if (parametros_correctos)
+      {
+        double menor=calcular_distancia(x, y, z, *(objetos[0]->get_vertices()[0]));
+        double distancia;
+        int indice_vertice;
+        int indice_objeto;
+        for (int i = 0; i < objetos.size(); i++)
+        {
+          for(int j=0; j<objetos[i]->get_vertices().size();j++){
+            distancia = calcular_distancia(x, y, z, *(objetos[i]->get_vertices()[j]));
+            if (distancia <= menor)
+            {
+              menor = distancia;
+              indice_vertice = j;
+              indice_objeto = i;
+            }
+          }
+        }
+        cout << "El vertice " << indice_vertice << " ( " << objetos[indice_objeto]->get_vertices()[indice_vertice]->get_x() << " " << objetos[indice_objeto]->get_vertices()[indice_vertice]->get_y() << " " << objetos[indice_objeto]->get_vertices()[indice_vertice]->get_z() << " )"
+             << " del objeto " << objetos[indice_objeto]->get_nombre() << " es el mas cercano al punto ( " << x << " " << y << " " << z << " ), a una distancia de valor " << menor << endl;
+      }
+    }
+    catch (exception &e)
+    {
+      parametros_correctos = false;
+      cout << "parametros del punto dado invalidos" << endl;
+    }
+  }
+
   std::cout<<"Comando ejecutado\n";
 }
 

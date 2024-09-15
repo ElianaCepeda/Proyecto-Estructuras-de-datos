@@ -125,7 +125,7 @@ int main()
             }
             else if (index == 4)
             {
-                sistema.v_cercano();
+                sistema.v_cercano(tokens[1],tokens[2],tokens[3]);
             }
             else
             {
