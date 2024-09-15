@@ -29,7 +29,7 @@ int cant_objetos;
  
 public:
     Sistema();
-    int calcular_distancia(Punto punto1, Punto punto2);
+    double calcular_distancia(double x, double y, double z, Punto punto);
     int buscar_objeto(string nombre);
     int calcular_minimo(char coordenada);
     int calcular_maximo(char coordenada);
@@ -39,7 +39,7 @@ public:
     void envolventeObjeto(string nombreObjeto);
     void descargarObjeto(string nombreObjeto);
     void guardarObjetoArchivo(string nombreObjeto, string nombreArchivo);
-    void v_cercanoObjeto();
+    void v_cercanoObjeto(string px, string py, string pz, string nombreObjeto);
     void v_cercano();
     void v_cercanos_caja();
     void ruta_cortaVertices();
