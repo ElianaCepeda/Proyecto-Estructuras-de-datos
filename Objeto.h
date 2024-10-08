@@ -21,7 +21,7 @@ string nombre;
 vector<Punto *> vertices;
 vector<Linea *> aristas;
 vector<Plano *> caras;
-ArbolKD <Punto> *arbolPuntos;
+ArbolKD <Punto*> *arbolPuntos;
 Objeto* envolvente;
 
 public:
@@ -35,14 +35,14 @@ public:
     Linea* get_aristas(int indice);
     vector<Plano *> get_caras();
     Plano* get_caras(int indice);
-    ArbolKD <Punto>* get_arbolPuntos();
-    void set_arbolPuntos(ArbolKD<Punto > *arbol);
+    ArbolKD <Punto*>* get_arbolPuntos();
+    void set_arbolPuntos(ArbolKD<Punto *> *arbol);
     Objeto* get_envolvente();
     void set_envolvente(Objeto* envolvente);
 
     int calcular_minimo(char coordenada);
     int calcular_maximo(char coordenada);
-    Punto vertice_cercano(double px, double py, double pz);
+    Punto* vertice_cercano(double px, double py, double pz);
     string to_string();
 
     bool equals(Objeto objeto);

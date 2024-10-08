@@ -116,7 +116,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
   vector<Linea *> aux_aristas_objeto;
   vector<Linea *> aux_aristas_cara;
   vector<Plano *> aux_caras_objeto;
-  ArbolKD<Punto > *aux_arbolPuntos= new ArbolKD<Punto >();
+  ArbolKD<Punto* > *aux_arbolPuntos= new ArbolKD<Punto *>();
   bool archivo_correcto=true;
   bool fin_archivo=false;
   bool encontrado;
@@ -154,17 +154,13 @@ void Sistema::cargarArchivo(string nombreArchivo){
             Punto *vertice = new Punto(cant_puntos, contador, coordenadas[0],coordenadas[1],coordenadas[2]);
             puntos.push_back(vertice);
             aux_vertices_objeto.push_back(vertice);
-            aux_arbolPuntos->insertar(*vertice);
+            aux_arbolPuntos->insertar(vertice);
             cant_puntos++;
             contador++; // guardamos los vertices del objeto
           }
         }
 
-        cout<<"Puntos guardados\n";
-        aux_arbolPuntos->preOrden();
-        for(int i=0; i<aux_vertices_objeto.size();i++){
-          cout<<*aux_vertices_objeto[i]<<endl;
-        }
+
         aux_aristas_objeto.clear();
 
         while(getline(archivo, linea)){ // leemos las lineas que tienen los datos de las caras
@@ -230,7 +226,6 @@ void Sistema::cargarArchivo(string nombreArchivo){
         Objeto *objeto = new Objeto(cant_objetos, nombreObjeto, aux_vertices_objeto, aux_aristas_objeto, aux_caras_objeto);
         objetos.push_back(objeto);
         objeto->set_arbolPuntos(aux_arbolPuntos);
-        objeto->get_arbolPuntos()->preOrden();
         cant_objetos++;
         
       }
@@ -916,11 +911,11 @@ void Sistema::v_cercanoObjeto(string px, string py, string pz, string nombreObje
       double menor =0; 
       if (parametros_correctos)
       {
-        Punto verticeCercano;
-        cout<<"Iniciando busqueda \n";
+        Punto* verticeCercano;
+        
         verticeCercano= objetos[indiceObjeto]->vertice_cercano(x,y,z);
-        menor = calcular_distancia(x,y,z,verticeCercano);
-        cout << "El vertice " << verticeCercano.get_indiceObjeto() << " " << verticeCercano
+        menor = calcular_distancia(x,y,z,*verticeCercano);
+        cout << "El vertice " << verticeCercano->get_indiceObjeto() << " " << *verticeCercano
              << " del objeto " << nombreObjeto << " es el mas cercano al punto ( " << x << " " << y << " " << z << " ), a una distancia de valor " << menor << endl;
       }
     }

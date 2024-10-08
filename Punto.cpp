@@ -41,7 +41,7 @@ bool Punto::operator==(const Punto &p) const
 
 std::ostream& operator<<(std::ostream &o, const Punto &p)
 {
-    o <<p.indiceGeneral<< "(" << p.x << "," << p.y << ","<< p.z <<")";
+    o << "(" << p.x << "," << p.y << ","<< p.z <<")";
     return o;
 }
 

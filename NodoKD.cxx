@@ -59,7 +59,7 @@ void NodoKD<T>::fijarHijoDer(NodoKD<T>* der) {
 
 template <class T>
 void NodoKD<T>::preOrden(){
-    std::cout<< this->dato<<" ";
+    std::cout<< * this->dato<<" ";
 
     if(this->hijoIzq != nullptr)
     this->hijoIzq->preOrden();
@@ -76,7 +76,7 @@ void NodoKD<T>::posOrden(){
     if(this->hijoDer!= nullptr)
     this->hijoDer->posOrden();
 
-    std::cout<< this->dato<<" ";
+    std::cout<< * this->dato<<" ";
     
 }
 
@@ -85,7 +85,7 @@ void NodoKD<T>::inOrden(){
     if(this->hijoIzq!= nullptr)
     this->hijoIzq->inOrden();
 
-    std::cout<< this->dato<<" ";
+    std::cout<<  * this->dato<<" ";
 
     if(this->hijoDer!= nullptr)
     this->hijoDer->inOrden();
