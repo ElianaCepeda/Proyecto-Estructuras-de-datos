@@ -152,7 +152,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
             // crea el nuevo punto y lo asigna a los vertices del objeto 
             Punto *vertice = new Punto(cant_puntos, coordenadas[0],coordenadas[1],coordenadas[2]);
             puntos.push_back(vertice);
-            aux_vertices_objeto.push_back(vertice);
+            aux_vertices_objeto.push_back(vertice); //******cambiar por arbol *******************
             cant_puntos++;
             contador++; // guardamos los vertices del objeto
           }
