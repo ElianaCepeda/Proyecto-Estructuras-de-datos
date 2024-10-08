@@ -11,6 +11,7 @@ Objeto::Objeto(int indice, string nombre, vector<Punto *> vertices, vector<Linea
     this->vertices=vertices;
     this->aristas=aristas;
     this->caras=caras;
+    this->arbolPuntos = nullptr;
     this->envolvente=NULL;
 }
 
@@ -68,6 +69,14 @@ vector<Plano *> Objeto::get_caras(){
 
 Plano* Objeto::get_caras(int indice){
     return caras[indice];
+}
+
+ArbolKD<Punto> *Objeto::get_arbolPuntos(){
+    return this->arbolPuntos;
+}
+
+void Objeto::set_arbolPuntos(ArbolKD<Punto>  *arbol){
+    this->arbolPuntos=arbol;
 }
 
 Objeto* Objeto::get_envolvente(){
@@ -147,6 +156,16 @@ int Objeto::calcular_maximo(char coordenada){
     
     return maximo;
 }
+
+Punto Objeto::vertice_cercano(double px, double py, double pz){
+    Punto verticeCercano;
+    Punto* dato= new Punto(-1,-1, px,py,pz);
+    cout<<"Inciando busqueda dentro de Objeto\n";
+    verticeCercano= this->arbolPuntos->buscarNodoInsercion(*dato);
+    delete dato;
+    return verticeCercano;
+}
+
 
 string Objeto::to_string(){
     string cadena="";

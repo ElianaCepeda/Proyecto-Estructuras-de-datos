@@ -7,15 +7,17 @@
 #include <vector>
 using namespace std;
 
-Punto::Punto(int indice,double x, double y, double z){
-    this->indice=indice;
+Punto::Punto(int indiceGeneral,int indiceObjeto, double x, double y, double z){
+    this->indiceGeneral=indiceGeneral;
+    this->indiceObjeto= indiceObjeto;
     this->x=x;
     this->y=y;
     this->z=z;
 }
 
 Punto::Punto(){
-    this->indice=0;
+    this->indiceGeneral=-1;
+    this->indiceObjeto=-1;
     this->x=0;
     this->y=0;
     this->z=0;
@@ -39,12 +41,16 @@ bool Punto::operator==(const Punto &p) const
 
 std::ostream& operator<<(std::ostream &o, const Punto &p)
 {
-    o << "(" << p.x << "," << p.y << ","<< p.z <<")";
+    o <<p.indiceGeneral<< "(" << p.x << "," << p.y << ","<< p.z <<")";
     return o;
 }
 
-int Punto::get_indice(){
-    return indice;
+int Punto::get_indiceGeneral(){
+    return indiceGeneral;
+}
+
+int Punto::get_indiceObjeto(){
+    return indiceObjeto;
 }
 
 double Punto::get_x(){
@@ -75,7 +81,7 @@ void Punto::set_z(double z){
 
 bool Punto::equals(Punto punto){
     bool respuesta=false;
-    if(this->indice==punto.indice)
+    if(this->indiceGeneral==punto.indiceGeneral)
     respuesta=true;
 
     return respuesta;
@@ -88,40 +94,3 @@ bool Punto::coordenadas_iguales(double x, double y, double z){
 
     return respuesta;
 }
-/* 
-Objeto* Punto::get_esta_en_objetos(int indice){
-    return esta_en_objetos[indice];
-
-}
-
-vector<Objeto*> Punto::get_esta_en_objetos(){
-    return esta_en_objetos;
-}
-
-Linea* Punto::get_esta_en_aristas(int indice){
-    return esta_en_aristas[indice];
-}
-
-vector<Linea*> Punto::get_esta_en_aristas(){
-    return esta_en_aristas;
-}
-
-Plano* Punto::get_esta_en_caras(int indice){
-    return esta_en_caras[indice];
-}
-
-vector<Plano*> Punto::get_esta_en_caras(){
-    return esta_en_caras;
-}
-
-void Punto::anadirObjeto(Objeto* ptrObjeto){
-    esta_en_objetos.push_back(ptrObjeto);
-}
-
-void Punto::anadirArista(Linea* ptrLinea){
-    esta_en_aristas.push_back(ptrLinea);
-}
-
-void Punto::anadirCara(Plano* ptrPlano){
-    esta_en_caras.push_back(ptrPlano);
-} */

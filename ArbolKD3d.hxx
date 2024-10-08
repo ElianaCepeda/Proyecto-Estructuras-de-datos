@@ -18,6 +18,7 @@ public:
     void fijarRaiz(NodoKD<T>* n_raiz);
     bool esVacio();
     void insertar(T dato);
+    T buscarNodoInsercion(T dato);
     void preOrden();
     void inOrden();
     void posOrden();

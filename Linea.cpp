@@ -47,7 +47,7 @@ bool Linea::equals(Linea linea){
 bool Linea::vertices_iguales(Punto vertice1, Punto vertice2){
     bool respuesta=false;
 
-    if((this->vertice1->get_indice()==vertice1.get_indice() && this->vertice2->get_indice()==vertice2.get_indice())|| (this->vertice1->get_indice()==vertice2.get_indice() && this->vertice2->get_indice()==vertice1.get_indice()))
+    if((this->vertice1->get_indiceGeneral()==vertice1.get_indiceGeneral() && this->vertice2->get_indiceGeneral()==vertice2.get_indiceGeneral())|| (this->vertice1->get_indiceGeneral()==vertice2.get_indiceGeneral() && this->vertice2->get_indiceGeneral()==vertice1.get_indiceGeneral()))
         respuesta =true;
 
     return respuesta;

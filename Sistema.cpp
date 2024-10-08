@@ -116,6 +116,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
   vector<Linea *> aux_aristas_objeto;
   vector<Linea *> aux_aristas_cara;
   vector<Plano *> aux_caras_objeto;
+  ArbolKD<Punto > *aux_arbolPuntos= new ArbolKD<Punto >();
   bool archivo_correcto=true;
   bool fin_archivo=false;
   bool encontrado;
@@ -150,32 +151,20 @@ void Sistema::cargarArchivo(string nombreArchivo){
             getline(input_stringstream, scoordenada, ' ');
             coordenadas[2]=stod(scoordenada);
             // crea el nuevo punto y lo asigna a los vertices del objeto 
-            Punto *vertice = new Punto(cant_puntos, coordenadas[0],coordenadas[1],coordenadas[2]);
+            Punto *vertice = new Punto(cant_puntos, contador, coordenadas[0],coordenadas[1],coordenadas[2]);
             puntos.push_back(vertice);
-            aux_vertices_objeto.push_back(vertice); //******cambiar por arbol *******************
+            aux_vertices_objeto.push_back(vertice);
+            aux_arbolPuntos->insertar(*vertice);
             cant_puntos++;
             contador++; // guardamos los vertices del objeto
           }
         }
 
-     /*    cout<<"Puntos\n";
-        for(int i=0; i<cant_puntos;i++){
-          std::cout<< "Indice "<<puntos[i]->get_indice()<<endl;
-          std::cout<< puntos[i]->get_x()<<" ";
-          std::cout<< puntos[i]->get_y()<<" ";
-          std::cout<< puntos[i]->get_z()<<" "<<endl;
+        cout<<"Puntos guardados\n";
+        aux_arbolPuntos->preOrden();
+        for(int i=0; i<aux_vertices_objeto.size();i++){
+          cout<<*aux_vertices_objeto[i]<<endl;
         }
- */
-       /*  cout<<"vertices\n";
-        for(int i=0; i<contador;i++){
-          std::cout<< "Indice "<<aux_vertices_objeto[i]->get_indice()<<endl;
-          std::cout<< aux_vertices_objeto[i]->get_x()<<" ";
-          std::cout<< aux_vertices_objeto[i]->get_y()<<" ";
-          std::cout<< aux_vertices_objeto[i]->get_z()<<" "<<endl;
-        } */
-
-
-
         aux_aristas_objeto.clear();
 
         while(getline(archivo, linea)){ // leemos las lineas que tienen los datos de las caras
@@ -208,68 +197,24 @@ void Sistema::cargarArchivo(string nombreArchivo){
               
               aux_vertices_cara.push_back(aux_vertices_objeto[indice2]); // guardamos los vertices de la cara
 
-
-             /*  encontrado=false;
-              std::cout<<"Indice 1 "<<aux_vertices_objeto[indice1]->get_indice()<<endl;
-              std::cout<<"Indice 2 "<<aux_vertices_objeto[indice2]->get_indice()<<endl;
-              for(int i=0; i<lineas.size();i++){
-                
-                if(lineas[i]->vertices_iguales(*aux_vertices_objeto[indice1],*aux_vertices_objeto[indice2])){
-                  
-                  std::cout<<"la arita se encontró, indice: "<<lineas[i]->get_indice()<<endl;
-                  aux_aristas_cara.push_back(lineas[i]);
-                  int encontrado2=false;
-                  for(int j=0; j< aux_aristas_objeto.size(); j++){
-                    if(aux_aristas_objeto[j]->vertices_iguales(*aux_vertices_objeto[indice1],*aux_vertices_objeto[indice2]))
-                      encontrado2=true;
-                  }
-                  if(!encontrado2)
-                    aux_aristas_objeto.push_back(lineas[i]);
-
-                  encontrado=true;
-                }  
-              }  */
-
-              //if(!encontrado){
-                Linea *arista= new Linea(cant_lineas, aux_vertices_objeto[indice1], aux_vertices_objeto[indice2]);
-                lineas.push_back(arista);
-                aux_aristas_objeto.push_back(arista);
-                aux_aristas_cara.push_back(arista);
-                cant_lineas++;
-                
-              //}
-
-              indice1=indice2;
-              
-            }
-
-            /* encontrado=false;
-            std::cout<<"Indice 1 "<<aux_vertices_objeto[indice2]->get_indice()<<endl;
-            std::cout<<"Indice 2 "<<aux_vertices_objeto[indiceInicial]->get_indice()<<endl;
-            for(int i=0; i<lineas.size();i++){
-              if(lineas[i]->vertices_iguales(*aux_vertices_objeto[indice2],*aux_vertices_objeto[indiceInicial])){
-                //std::cout<<"la arita se encontró, indice: "<<lineas[i]->get_indice()<<endl;
-                aux_aristas_cara.push_back(lineas[i]);
-                int encontrado2=false;
-                for(int j=0; j< aux_aristas_objeto.size(); j++){
-                  if(aux_aristas_objeto[j]->vertices_iguales(*aux_vertices_objeto[indice2],*aux_vertices_objeto[indiceInicial]))
-                    encontrado2=true;
-                }
-                if(!encontrado2){
-                  aux_aristas_objeto.push_back(lineas[i]);
-                }
-                encontrado=true;
-              }  
-            } 
-
-            if(!encontrado){ */
-              Linea *arista= new Linea(cant_lineas, aux_vertices_objeto[indice2], aux_vertices_objeto[indiceInicial]);
+              Linea *arista= new Linea(cant_lineas, aux_vertices_objeto[indice1], aux_vertices_objeto[indice2]);
               lineas.push_back(arista);
               aux_aristas_objeto.push_back(arista);
               aux_aristas_cara.push_back(arista);
               cant_lineas++;
               
-            //}
+
+              indice1=indice2;
+              
+            }
+
+
+            Linea *arista= new Linea(cant_lineas, aux_vertices_objeto[indice2], aux_vertices_objeto[indiceInicial]);
+            lineas.push_back(arista);
+            aux_aristas_objeto.push_back(arista);
+            aux_aristas_cara.push_back(arista);
+            cant_lineas++;
+            
 
 
             Plano *cara= new Plano(cant_planos, aux_aristas_cara, aux_vertices_cara);
@@ -281,17 +226,11 @@ void Sistema::cargarArchivo(string nombreArchivo){
 
         }
 
-        /* std::cout<<"\n Lineas:\n";
-        for(int i=0; i<cant_lineas;i++){
-          std::cout<<lineas[i]->get_indice()<< " v1: "<<lineas[i]->get_vertice1()->get_indice() <<" v2: "<<lineas[i]->get_vertice2()->get_indice()<<endl;
-        }
-        std::cout<<"\n Aristas:\n";
-        for(int i=0; i<aux_aristas_objeto.size();i++){
-          std::cout<<aux_aristas_objeto[i]->get_indice()<< " v1: "<<aux_aristas_objeto[i]->get_vertice1()->get_indice()<<" v2: "<<aux_aristas_objeto[i]->get_vertice2()->get_indice()<<endl;
-        } */
 
         Objeto *objeto = new Objeto(cant_objetos, nombreObjeto, aux_vertices_objeto, aux_aristas_objeto, aux_caras_objeto);
         objetos.push_back(objeto);
+        objeto->set_arbolPuntos(aux_arbolPuntos);
+        objeto->get_arbolPuntos()->preOrden();
         cant_objetos++;
         
       }
@@ -365,42 +304,42 @@ void Sistema::envolvente(){
 ;
    // creamos los puntos del objeto envolvente y los guardamos
 
-    Punto *p0 = new Punto (cant_puntos, xmax, ymax, zmax );//pmax
+    Punto *p0 = new Punto (cant_puntos, 0, xmax, ymax, zmax );//pmax
     puntos.push_back(p0);
     aux_vertices_objeto.push_back(p0); 
     cant_puntos++;
 
-    Punto *p1 = new Punto (cant_puntos, xmax, ymin, zmax );
+    Punto *p1 = new Punto (cant_puntos, 1, xmax, ymin, zmax );
     puntos.push_back(p1 );
     aux_vertices_objeto.push_back(p1 ); 
     cant_puntos++;
 
-    Punto *p2 = new Punto (cant_puntos, xmin, ymin, zmax );
+    Punto *p2 = new Punto (cant_puntos, 2, xmin, ymin, zmax );
     puntos.push_back(p2 );
     aux_vertices_objeto.push_back(p2 ); 
     cant_puntos++;
 
-    Punto *p3 = new Punto (cant_puntos, xmin, ymax, zmax );
+    Punto *p3 = new Punto (cant_puntos, 3, xmin, ymax, zmax );
     puntos.push_back(p3 );
     aux_vertices_objeto.push_back(p3 ); 
     cant_puntos++;
 
-    Punto *p4 = new Punto (cant_puntos, xmin, ymax, zmin );
+    Punto *p4 = new Punto (cant_puntos, 4, xmin, ymax, zmin );
     puntos.push_back(p4 );
     aux_vertices_objeto.push_back(p4 ); 
     cant_puntos++;
 
-    Punto *p5 = new Punto (cant_puntos, xmax, ymax, zmin );
+    Punto *p5 = new Punto (cant_puntos, 5, xmax, ymax, zmin );
     puntos.push_back(p5 );
     aux_vertices_objeto.push_back(p5 ); 
     cant_puntos++;
 
-    Punto *p6 = new Punto (cant_puntos, xmax, ymin, zmin );
+    Punto *p6 = new Punto (cant_puntos, 6, xmax, ymin, zmin );
     puntos.push_back(p6 );
     aux_vertices_objeto.push_back(p6 ); 
     cant_puntos++;
 
-    Punto *p7 = new Punto (cant_puntos, xmin, ymin, zmin );//pmin
+    Punto *p7 = new Punto (cant_puntos, 7, xmin, ymin, zmin );//pmin
     puntos.push_back(p7 );
     aux_vertices_objeto.push_back(p7 ); 
     cant_puntos++;
@@ -648,42 +587,42 @@ void Sistema::envolventeObjeto(string nombreObjeto){
 
     // creamos los puntos del objeto envolvente y los guardamos
 
-    Punto *p0 = new Punto (cant_puntos, xmax, ymax, zmax );//pmax
+    Punto *p0 = new Punto (cant_puntos, 0, xmax, ymax, zmax );//pmax
     puntos.push_back(p0);
     aux_vertices_objeto.push_back(p0); 
     cant_puntos++;
 
-    Punto *p1 = new Punto (cant_puntos, xmax, ymin, zmax );
+    Punto *p1 = new Punto (cant_puntos, 1, xmax, ymin, zmax );
     puntos.push_back(p1 );
     aux_vertices_objeto.push_back(p1 ); 
     cant_puntos++;
 
-    Punto *p2 = new Punto (cant_puntos, xmin, ymin, zmax );
+    Punto *p2 = new Punto (cant_puntos, 2, xmin, ymin, zmax );
     puntos.push_back(p2 );
     aux_vertices_objeto.push_back(p2 ); 
     cant_puntos++;
 
-    Punto *p3 = new Punto (cant_puntos, xmin, ymax, zmax );
+    Punto *p3 = new Punto (cant_puntos, 3, xmin, ymax, zmax );
     puntos.push_back(p3 );
     aux_vertices_objeto.push_back(p3 ); 
     cant_puntos++;
 
-    Punto *p4 = new Punto (cant_puntos, xmin, ymax, zmin );
+    Punto *p4 = new Punto (cant_puntos, 4, xmin, ymax, zmin );
     puntos.push_back(p4 );
     aux_vertices_objeto.push_back(p4 ); 
     cant_puntos++;
 
-    Punto *p5 = new Punto (cant_puntos, xmax, ymax, zmin );
+    Punto *p5 = new Punto (cant_puntos, 5, xmax, ymax, zmin );
     puntos.push_back(p5 );
     aux_vertices_objeto.push_back(p5 ); 
     cant_puntos++;
 
-    Punto *p6 = new Punto (cant_puntos, xmax, ymin, zmin );
+    Punto *p6 = new Punto (cant_puntos, 6, xmax, ymin, zmin );
     puntos.push_back(p6 );
     aux_vertices_objeto.push_back(p6 ); 
     cant_puntos++;
 
-    Punto *p7 = new Punto (cant_puntos, xmin, ymin, zmin );//pmin
+    Punto *p7 = new Punto (cant_puntos, 7, xmin, ymin, zmin );//pmin
     puntos.push_back(p7 );
     aux_vertices_objeto.push_back(p7 ); 
     cant_puntos++;
@@ -974,21 +913,14 @@ void Sistema::v_cercanoObjeto(string px, string py, string pz, string nombreObje
       double x = stod(px);
       double y = stod(py);
       double z = stod(pz);
+      double menor =0; 
       if (parametros_correctos)
       {
-        double menor=calcular_distancia(x, y, z, *(objeto->get_vertices()[0]));
-        double distancia;
-        int indice_vertice;
-        for (int i = 0; i < objetos[indiceObjeto]->get_vertices().size(); i++)
-        {
-          distancia = calcular_distancia(x, y, z, *(objeto->get_vertices()[i]));
-          if (distancia <= menor)
-          {
-            menor = distancia;
-            indice_vertice = i;
-          }
-        }
-        cout << "El vertice " << indice_vertice << " ( " << objeto->get_vertices()[indice_vertice]->get_x() << " " << objeto->get_vertices()[indice_vertice]->get_y() << " " << objeto->get_vertices()[indice_vertice]->get_z() << " )"
+        Punto verticeCercano;
+        cout<<"Iniciando busqueda \n";
+        verticeCercano= objetos[indiceObjeto]->vertice_cercano(x,y,z);
+        menor = calcular_distancia(x,y,z,verticeCercano);
+        cout << "El vertice " << verticeCercano.get_indiceObjeto() << " " << verticeCercano
              << " del objeto " << nombreObjeto << " es el mas cercano al punto ( " << x << " " << y << " " << z << " ), a una distancia de valor " << menor << endl;
       }
     }

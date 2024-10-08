@@ -140,6 +140,108 @@ void ArbolKD<T>::insertar(T val) {
     }
 }
 
+
+template <class T>
+T ArbolKD<T>::buscarNodoInsercion(T val){
+    cout<<"BuscandoNodo\n";
+    bool NodoEncontrado=false;
+    T datoCercano;
+    cout<<"Verificando que haya algo\n";
+    cout<<this->esVacio()<<endl;
+    if (this->esVacio()) {
+        NodoEncontrado=true;
+    }
+    cout<<"No es vacio\n";
+    NodoKD<T>* actual = raiz;
+    int profundidad = 0;
+
+    while (!NodoEncontrado) {
+        cout<<"Buscando\n";
+        if (actual->obtenerDato() == val) {
+            NodoEncontrado=true;
+            datoCercano=actual->obtenerDato();
+        }else{
+            // Alternar entre las dimensiones: 0 (x), 1 (y), 2 (z)
+            int dimension = profundidad % 3;
+
+            switch (dimension){
+
+            case 0:
+                
+                if (val.get_x() <= actual->obtenerDato().get_x()) {
+                    if (actual->obtenerHijoIzq() == nullptr) {
+                        datoCercano=actual->obtenerDato();
+                        NodoEncontrado=true;
+                    } else {
+                        actual = actual->obtenerHijoIzq();
+                    }
+                } else {
+                    if (actual->obtenerHijoDer() == nullptr) {
+                        datoCercano=actual->obtenerDato();
+                        NodoEncontrado=true;
+                    } else {
+                        actual = actual->obtenerHijoDer();
+                    }
+                }
+            
+                break;
+
+            case 1:
+
+                if (val.get_y() <= actual->obtenerDato().get_y()) {
+                    if (actual->obtenerHijoIzq() == nullptr) {
+                        datoCercano=actual->obtenerDato();
+                        NodoEncontrado=true;
+                    } else {
+                        actual = actual->obtenerHijoIzq();
+                    }
+                } else {
+                    if (actual->obtenerHijoDer() == nullptr) {
+                        datoCercano=actual->obtenerDato();
+                        NodoEncontrado=true;
+                    } else {
+                        actual = actual->obtenerHijoDer();
+                    }
+                }
+
+                break;
+
+            case 2:
+
+                if (val.get_z() <= actual->obtenerDato().get_z()) {
+                    if (actual->obtenerHijoIzq() == nullptr) {
+                        datoCercano=actual->obtenerDato();
+                        NodoEncontrado=true;
+                    } else {
+                        actual = actual->obtenerHijoIzq();
+                    }
+                } else {
+                    if (actual->obtenerHijoDer() == nullptr) {
+                        datoCercano=actual->obtenerDato();
+                        NodoEncontrado=true;
+                    } else {
+                        actual = actual->obtenerHijoDer();
+                    }
+                }
+            
+                break;
+            
+            
+            default:
+                break;
+
+
+            
+            }
+
+            profundidad++;
+        }
+
+    }
+
+    return datoCercano;
+}
+
 template <class T>
 void ArbolKD<T>::preOrden() {
     if (!this->esVacio())
