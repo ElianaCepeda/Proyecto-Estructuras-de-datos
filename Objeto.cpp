@@ -162,7 +162,6 @@ int Objeto::calcular_maximo(char coordenada){
 Punto* Objeto::vertice_cercano(double px, double py, double pz){
     Punto* verticeCercano;
     Punto* dato= new Punto(-1,-1, px,py,pz);
-    cout<<"Inciando busqueda dentro de Objeto\n";
     verticeCercano= this->arbolPuntos->buscarNodoInsercion(dato);
     delete dato;
     return verticeCercano;

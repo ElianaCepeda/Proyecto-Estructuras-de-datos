@@ -146,7 +146,6 @@ T ArbolKD<T>::buscarNodoInsercion(T val){
     bool NodoEncontrado=false;
     T datoCercano;
 
-    cout<<this->esVacio()<<endl;
     if (this->esVacio()) {
         NodoEncontrado=true;
     }

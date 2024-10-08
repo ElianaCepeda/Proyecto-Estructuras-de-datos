@@ -263,6 +263,7 @@ void Sistema::listado(){
 
 void Sistema::envolvente(){
   vector<Punto *> aux_vertices_objeto;
+  ArbolKD<Punto*> * aux_arbol=new ArbolKD<Punto*>();
   vector<Linea *> aux_aristas_objeto;
   vector<Plano *> aux_caras_objeto;
   vector<Punto *> aux_vertices_cara0;
@@ -302,41 +303,49 @@ void Sistema::envolvente(){
     Punto *p0 = new Punto (cant_puntos, 0, xmax, ymax, zmax );//pmax
     puntos.push_back(p0);
     aux_vertices_objeto.push_back(p0); 
+    aux_arbol->insertar(p0);
     cant_puntos++;
 
     Punto *p1 = new Punto (cant_puntos, 1, xmax, ymin, zmax );
     puntos.push_back(p1 );
     aux_vertices_objeto.push_back(p1 ); 
+    aux_arbol->insertar(p1);
     cant_puntos++;
 
     Punto *p2 = new Punto (cant_puntos, 2, xmin, ymin, zmax );
     puntos.push_back(p2 );
-    aux_vertices_objeto.push_back(p2 ); 
+    aux_vertices_objeto.push_back(p2 );
+    aux_arbol->insertar(p2); 
     cant_puntos++;
 
     Punto *p3 = new Punto (cant_puntos, 3, xmin, ymax, zmax );
     puntos.push_back(p3 );
-    aux_vertices_objeto.push_back(p3 ); 
+    aux_vertices_objeto.push_back(p3 );
+    aux_arbol->insertar(p3); 
     cant_puntos++;
 
     Punto *p4 = new Punto (cant_puntos, 4, xmin, ymax, zmin );
     puntos.push_back(p4 );
-    aux_vertices_objeto.push_back(p4 ); 
+    aux_vertices_objeto.push_back(p4 );
+    aux_arbol->insertar(p4); 
     cant_puntos++;
 
     Punto *p5 = new Punto (cant_puntos, 5, xmax, ymax, zmin );
     puntos.push_back(p5 );
     aux_vertices_objeto.push_back(p5 ); 
+    aux_arbol->insertar(p5);
     cant_puntos++;
 
     Punto *p6 = new Punto (cant_puntos, 6, xmax, ymin, zmin );
     puntos.push_back(p6 );
     aux_vertices_objeto.push_back(p6 ); 
+    aux_arbol->insertar(p6);
     cant_puntos++;
 
     Punto *p7 = new Punto (cant_puntos, 7, xmin, ymin, zmin );//pmin
     puntos.push_back(p7 );
     aux_vertices_objeto.push_back(p7 ); 
+    aux_arbol->insertar(p7);
     cant_puntos++;
 
     // creamos las aristas necesarias 
@@ -542,6 +551,7 @@ void Sistema::envolvente(){
   
       
     Objeto *envolvente= new Objeto(cant_objetos, "env_global", aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto);
+    envolvente->set_arbolPuntos(aux_arbol);
     objetos.push_back(envolvente);
     cant_objetos++;
     envolvente->set_envolvente(envolvente);
@@ -555,6 +565,7 @@ void Sistema::envolvente(){
 void Sistema::envolventeObjeto(string nombreObjeto){
   int indice_objeto= buscar_objeto(nombreObjeto);
   vector<Punto *> aux_vertices_objeto;
+  ArbolKD<Punto *> *aux_arbol= new ArbolKD<Punto*>();
   vector<Linea *> aux_aristas_objeto;
   vector<Plano *> aux_caras_objeto;
   vector<Punto *> aux_vertices_cara0;
@@ -585,41 +596,49 @@ void Sistema::envolventeObjeto(string nombreObjeto){
     Punto *p0 = new Punto (cant_puntos, 0, xmax, ymax, zmax );//pmax
     puntos.push_back(p0);
     aux_vertices_objeto.push_back(p0); 
+    aux_arbol->insertar(p0);
     cant_puntos++;
 
     Punto *p1 = new Punto (cant_puntos, 1, xmax, ymin, zmax );
     puntos.push_back(p1 );
-    aux_vertices_objeto.push_back(p1 ); 
+    aux_vertices_objeto.push_back(p1 );
+    aux_arbol->insertar(p1); 
     cant_puntos++;
 
     Punto *p2 = new Punto (cant_puntos, 2, xmin, ymin, zmax );
     puntos.push_back(p2 );
-    aux_vertices_objeto.push_back(p2 ); 
+    aux_vertices_objeto.push_back(p2 );
+    aux_arbol->insertar(p2); 
     cant_puntos++;
 
     Punto *p3 = new Punto (cant_puntos, 3, xmin, ymax, zmax );
     puntos.push_back(p3 );
-    aux_vertices_objeto.push_back(p3 ); 
+    aux_vertices_objeto.push_back(p3 );
+    aux_arbol->insertar(p3); 
     cant_puntos++;
 
     Punto *p4 = new Punto (cant_puntos, 4, xmin, ymax, zmin );
     puntos.push_back(p4 );
-    aux_vertices_objeto.push_back(p4 ); 
+    aux_vertices_objeto.push_back(p4 );
+    aux_arbol->insertar(p4); 
     cant_puntos++;
 
     Punto *p5 = new Punto (cant_puntos, 5, xmax, ymax, zmin );
     puntos.push_back(p5 );
-    aux_vertices_objeto.push_back(p5 ); 
+    aux_vertices_objeto.push_back(p5 );
+    aux_arbol->insertar(p5); 
     cant_puntos++;
 
     Punto *p6 = new Punto (cant_puntos, 6, xmax, ymin, zmin );
     puntos.push_back(p6 );
-    aux_vertices_objeto.push_back(p6 ); 
+    aux_vertices_objeto.push_back(p6 );
+    aux_arbol->insertar(p6); 
     cant_puntos++;
 
     Punto *p7 = new Punto (cant_puntos, 7, xmin, ymin, zmin );//pmin
     puntos.push_back(p7 );
-    aux_vertices_objeto.push_back(p7 ); 
+    aux_vertices_objeto.push_back(p7 );
+    aux_arbol->insertar(p7); 
     cant_puntos++;
 
     // creamos las aristas necesarias 
@@ -824,6 +843,7 @@ void Sistema::envolventeObjeto(string nombreObjeto){
     cant_planos++;
     
     Objeto *envolvente= new Objeto(cant_objetos, "env_"+nombreObjeto, aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto);
+    envolvente->set_arbolPuntos(aux_arbol);
     objetos.push_back(envolvente);
     cant_objetos++;
     objetos[indice_objeto]->set_envolvente(envolvente);
@@ -943,23 +963,24 @@ void Sistema::v_cercano(string px, string py, string pz){
       double z = stod(pz);
       if (parametros_correctos)
       {
-        double menor=calcular_distancia(x, y, z, *(objetos[0]->get_vertices()[0]));
+        Punto* vertice_Objeto=objetos[0]->vertice_cercano(x,y,z);
+        double menor=calcular_distancia(x, y, z, *(vertice_Objeto));
         double distancia;
-        int indice_vertice;
+        Punto* vertice_cercano;
         int indice_objeto;
         for (int i = 0; i < objetos.size(); i++)
         {
-          for(int j=0; j<objetos[i]->get_vertices().size();j++){
-            distancia = calcular_distancia(x, y, z, *(objetos[i]->get_vertices()[j]));
-            if (distancia <= menor)
-            {
-              menor = distancia;
-              indice_vertice = j;
-              indice_objeto = i;
-            }
+          vertice_Objeto=objetos[i]->vertice_cercano(x,y,z);
+          distancia = calcular_distancia(x, y, z, *(vertice_Objeto));
+          if (distancia <= menor)
+          {
+            menor = distancia;
+            vertice_cercano = vertice_Objeto;
+            indice_objeto = i;
           }
+        
         }
-        cout << "El vertice " << indice_vertice << " ( " << objetos[indice_objeto]->get_vertices()[indice_vertice]->get_x() << " " << objetos[indice_objeto]->get_vertices()[indice_vertice]->get_y() << " " << objetos[indice_objeto]->get_vertices()[indice_vertice]->get_z() << " )"
+        cout << "El vertice " << vertice_cercano->get_indiceObjeto() << *vertice_cercano
              << " del objeto " << objetos[indice_objeto]->get_nombre() << " es el mas cercano al punto ( " << x << " " << y << " " << z << " ), a una distancia de valor " << menor << endl;
       }
     }
