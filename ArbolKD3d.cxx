@@ -66,7 +66,7 @@ void ArbolKD<T>::insertar(T val) {
 
             case 0:
                 
-                if (val.get_x() < actual->obtenerDato().get_x()) {
+                if (val.get_x() <= actual->obtenerDato().get_x()) {
                     if (actual->obtenerHijoIzq() == nullptr) {
                         actual->fijarHijoIzq(new NodoKD<T>(val));
                         insertado=true;
@@ -86,7 +86,7 @@ void ArbolKD<T>::insertar(T val) {
 
             case 1:
 
-                if (val.get_y() < actual->obtenerDato().get_y()) {
+                if (val.get_y() <= actual->obtenerDato().get_y()) {
                     if (actual->obtenerHijoIzq() == nullptr) {
                         actual->fijarHijoIzq(new NodoKD<T>(val));
                         insertado=true;
@@ -106,7 +106,7 @@ void ArbolKD<T>::insertar(T val) {
 
             case 2:
 
-                if (val.get_z() < actual->obtenerDato().get_z()) {
+                if (val.get_z() <= actual->obtenerDato().get_z()) {
                     if (actual->obtenerHijoIzq() == nullptr) {
                         actual->fijarHijoIzq(new NodoKD<T>(val));
                         insertado=true;
@@ -129,8 +129,10 @@ void ArbolKD<T>::insertar(T val) {
                 break;
 
 
-            profundidad++;
+            
             }
+
+            profundidad++;
         }
 
         

@@ -61,20 +61,20 @@ template <class T>
 void NodoKD<T>::preOrden(){
     std::cout<< this->dato<<" ";
 
-    if(hijoIzq!= nullptr)
-    hijoIzq->preOrden();
+    if(this->hijoIzq != nullptr)
+    this->hijoIzq->preOrden();
 
-    if(hijoDer!= nullptr)
-    hijoDer->preOrden();
+    if(this->hijoDer!= nullptr)
+    this->hijoDer->preOrden();
 }
 
 template <class T>
 void NodoKD<T>::posOrden(){
-    if(hijoIzq!= nullptr)
-    hijoIzq->posOrden();
+    if(this->hijoIzq!= nullptr)
+    this->hijoIzq->posOrden();
 
-    if(hijoDer!= nullptr)
-    hijoDer->posOrden();
+    if(this->hijoDer!= nullptr)
+    this->hijoDer->posOrden();
 
     std::cout<< this->dato<<" ";
     
@@ -82,12 +82,12 @@ void NodoKD<T>::posOrden(){
 
 template <class T>
 void NodoKD<T>::inOrden(){
-    if(hijoIzq!= nullptr)
-    hijoIzq->inOrden();
+    if(this->hijoIzq!= nullptr)
+    this->hijoIzq->inOrden();
 
     std::cout<< this->dato<<" ";
 
-    if(hijoDer!= nullptr)
-    hijoDer->inOrden();
+    if(this->hijoDer!= nullptr)
+    this->hijoDer->inOrden();
     
 }
