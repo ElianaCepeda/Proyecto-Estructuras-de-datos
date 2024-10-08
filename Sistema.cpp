@@ -1018,20 +1018,15 @@ void Sistema::v_cercanos_caja(string nombreObjeto){
         z=envolvente->get_vertices()[i]->get_z();
         double menor=calcular_distancia(x,y,z, *(objeto->get_vertices()[0]));
         double distancia;
-        int indice_vertice;
         
+        Punto* verticeCercano;
         
-        for (int j = 0; j < objeto->get_vertices().size(); j++)
-        {
-          distancia = calcular_distancia(x,y,z, *(objeto->get_vertices()[j]));
-          if (distancia <= menor)
-          {
-            menor = distancia;
-            indice_vertice = j;
-          }
-        }
+        verticeCercano= objetos[indiceObjeto]->vertice_cercano(x,y,z);
+        menor = calcular_distancia(x,y,z,*verticeCercano);
+
+
         cout<<i+1<<" ( "<<x<<" "<<y<<" "<<z<<" )\t"
-            <<indice_vertice<<" ( "<<objetos[indiceObjeto]->get_vertices()[indice_vertice]->get_x()<<" "<<objetos[indiceObjeto]->get_vertices()[indice_vertice]->get_y()<<" "<<objetos[indiceObjeto]->get_vertices()[indice_vertice]->get_z()<<" )\t"
+            <<verticeCercano->get_indiceObjeto()<<*verticeCercano<<"\t"
            <<menor<<endl;
       }
     }
