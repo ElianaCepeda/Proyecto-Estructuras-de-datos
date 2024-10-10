@@ -40,8 +40,8 @@ public:
     Objeto* get_envolvente();
     void set_envolvente(Objeto* envolvente);
 
-    int calcular_minimo(char coordenada);
-    int calcular_maximo(char coordenada);
+    double calcular_minimo(char coordenada);
+    double calcular_maximo(char coordenada);
     Punto* vertice_cercano(double px, double py, double pz);
     string to_string();
 

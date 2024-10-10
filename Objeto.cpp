@@ -90,8 +90,8 @@ void Objeto::set_envolvente(Objeto* envolvente){
 }
 
 
-int Objeto::calcular_minimo(char coordenada){
-    int minimo=0;
+double Objeto::calcular_minimo(char coordenada){
+    double minimo=0;
     switch (coordenada)
     {
     case 'x':
@@ -125,8 +125,8 @@ int Objeto::calcular_minimo(char coordenada){
     
 }
 
-int Objeto::calcular_maximo(char coordenada){
-    int maximo=0;
+double Objeto::calcular_maximo(char coordenada){
+    double maximo=0;
     switch (coordenada)
     {
     case 'x':
