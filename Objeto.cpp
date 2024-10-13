@@ -184,11 +184,5 @@ bool Objeto::equals(Objeto objeto){
 }
 
 
-bool Objeto::caras_iguales(vector<Plano*> caras){
-    bool respuesta=false;
-    if(this->caras==caras)
-    respuesta=true;
 
-    return true;
-}
 

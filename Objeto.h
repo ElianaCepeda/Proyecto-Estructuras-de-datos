@@ -46,7 +46,6 @@ public:
     string to_string();
 
     bool equals(Objeto objeto);
-    bool caras_iguales(vector<Plano*> caras);
 };
 
 
