@@ -79,13 +79,6 @@ void Punto::set_z(double z){
     this->z=z;
 }
 
-bool Punto::equals(Punto punto){
-    bool respuesta=false;
-    if(this->indiceGeneral==punto.indiceGeneral)
-    respuesta=true;
-
-    return respuesta;
-}
 
 bool Punto::coordenadas_iguales(double x, double y, double z){
     bool respuesta =false;

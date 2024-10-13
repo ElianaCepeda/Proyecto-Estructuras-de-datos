@@ -36,7 +36,6 @@ public:
     void set_x(double x);
     void set_y(double y);
     void set_z(double z);
-    bool equals(Punto punto);
     bool coordenadas_iguales(double x, double y, double z);
  
 
