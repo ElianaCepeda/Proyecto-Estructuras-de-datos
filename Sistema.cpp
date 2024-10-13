@@ -116,7 +116,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
   vector<Linea *> aux_aristas_objeto;
   vector<Linea *> aux_aristas_cara;
   vector<Plano *> aux_caras_objeto;
-  ArbolKD<Punto* > *aux_arbolPuntos= new ArbolKD<Punto *>();
+  ArbolKD3d<Punto* > *aux_arbolPuntos= new ArbolKD3d<Punto *>();
   bool archivo_correcto=true;
   bool fin_archivo=false;
   bool encontrado;
@@ -263,7 +263,7 @@ void Sistema::listado(){
 
 void Sistema::envolvente(){
   vector<Punto *> aux_vertices_objeto;
-  ArbolKD<Punto*> * aux_arbol=new ArbolKD<Punto*>();
+  ArbolKD3d<Punto*> * aux_arbol=new ArbolKD3d<Punto*>();
   vector<Linea *> aux_aristas_objeto;
   vector<Plano *> aux_caras_objeto;
   vector<Punto *> aux_vertices_cara0;
@@ -565,7 +565,7 @@ void Sistema::envolvente(){
 void Sistema::envolventeObjeto(string nombreObjeto){
   int indice_objeto= buscar_objeto(nombreObjeto);
   vector<Punto *> aux_vertices_objeto;
-  ArbolKD<Punto *> *aux_arbol= new ArbolKD<Punto*>();
+  ArbolKD3d<Punto *> *aux_arbol= new ArbolKD3d<Punto*>();
   vector<Linea *> aux_aristas_objeto;
   vector<Plano *> aux_caras_objeto;
   vector<Punto *> aux_vertices_cara0;

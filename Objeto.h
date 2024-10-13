@@ -21,7 +21,7 @@ string nombre;
 vector<Punto *> vertices;
 vector<Linea *> aristas;
 vector<Plano *> caras;
-ArbolKD <Punto*> *arbolPuntos;
+ArbolKD3d <Punto*> *arbolPuntos;
 Objeto* envolvente;
 
 public:
@@ -35,8 +35,8 @@ public:
     Linea* get_aristas(int indice);
     vector<Plano *> get_caras();
     Plano* get_caras(int indice);
-    ArbolKD <Punto*>* get_arbolPuntos();
-    void set_arbolPuntos(ArbolKD<Punto *> *arbol);
+    ArbolKD3d <Punto*>* get_arbolPuntos();
+    void set_arbolPuntos(ArbolKD3d<Punto *> *arbol);
     Objeto* get_envolvente();
     void set_envolvente(Objeto* envolvente);
 

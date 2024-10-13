@@ -6,14 +6,13 @@
 
 template <class T>
 
-class ArbolKD {
+class ArbolKD3d {
 protected:
     NodoKD<T>* raiz;
 public:
-    ArbolKD();
-    ArbolKD(T dato);
-    ~ArbolKD();
-    T datoRaiz();
+    ArbolKD3d();
+    ArbolKD3d(T dato);
+    ~ArbolKD3d();
     NodoKD<T>* obtenerRaiz();
     void fijarRaiz(NodoKD<T>* n_raiz);
     bool esVacio();

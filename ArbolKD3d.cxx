@@ -6,44 +6,40 @@
 using namespace std;
 
 template <class T>
-ArbolKD<T>::ArbolKD() {
+ArbolKD3d<T>::ArbolKD3d() {
     raiz = nullptr;
 }
 
 template <class T>
-ArbolKD<T>::ArbolKD(T dato) {
+ArbolKD3d<T>::ArbolKD3d(T dato) {
     raiz = new NodoKD<T>(dato);
 }
 
 template <class T>
-ArbolKD<T>::~ArbolKD() {
+ArbolKD3d<T>::~ArbolKD3d() {
     delete this->raiz;
     this->raiz=nullptr;
 }
 
-template <class T>
-T ArbolKD<T>::datoRaiz() {
-    return this->raiz->obtenerDato();
-}
 
 template <class T>
-NodoKD<T>* ArbolKD<T>::obtenerRaiz() {
+NodoKD<T>* ArbolKD3d<T>::obtenerRaiz() {
     return raiz;
 }
 
 template <class T>
-void ArbolKD<T>::fijarRaiz(NodoKD<T>* n_raiz) {
+void ArbolKD3d<T>::fijarRaiz(NodoKD<T>* n_raiz) {
     raiz = n_raiz;
 }
 
 
 template <class T>
-bool ArbolKD<T>::esVacio() {
+bool ArbolKD3d<T>::esVacio() {
     return (raiz == nullptr);
 }
 
 template <class T>
-void ArbolKD<T>::insertar(T val) {
+void ArbolKD3d<T>::insertar(T val) {
     bool insertado=false;
 
     if (esVacio()) {
@@ -142,7 +138,7 @@ void ArbolKD<T>::insertar(T val) {
 
 
 template <class T>
-T ArbolKD<T>::buscarNodoInsercion(T val){
+T ArbolKD3d<T>::buscarNodoInsercion(T val){
     bool NodoEncontrado=false;
     T datoCercano;
 
@@ -241,7 +237,7 @@ T ArbolKD<T>::buscarNodoInsercion(T val){
 }
 
 template <class T>
-void ArbolKD<T>::preOrden() {
+void ArbolKD3d<T>::preOrden() {
     if (!this->esVacio())
     raiz->preOrden();
     std::cout<<"\n";
@@ -249,21 +245,21 @@ void ArbolKD<T>::preOrden() {
 
 
 template <class T>
-void ArbolKD<T>::posOrden() {
+void ArbolKD3d<T>::posOrden() {
     if (!this->esVacio())
     raiz->posOrden();
     std::cout<<"\n";
 }
 
 template <class T>
-void ArbolKD<T>::inOrden() {
+void ArbolKD3d<T>::inOrden() {
     if (!this->esVacio())
     raiz->inOrden();
     std::cout<<"\n";
 }
 
 template <class T>
-void ArbolKD<T>::nivelOrden() {
+void ArbolKD3d<T>::nivelOrden() {
     if (raiz == nullptr) return;
 
     typename std::queue<NodoKD<T> *> cola;

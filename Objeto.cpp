@@ -73,11 +73,11 @@ Plano* Objeto::get_caras(int indice){
     return caras[indice];
 }
 
-ArbolKD<Punto*> *Objeto::get_arbolPuntos(){
+ArbolKD3d<Punto*> *Objeto::get_arbolPuntos(){
     return this->arbolPuntos;
 }
 
-void Objeto::set_arbolPuntos(ArbolKD<Punto*>  *arbol){
+void Objeto::set_arbolPuntos(ArbolKD3d<Punto*>  *arbol){
     this->arbolPuntos=arbol;
 }
 

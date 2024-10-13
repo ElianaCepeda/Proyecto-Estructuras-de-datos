@@ -7,9 +7,6 @@
 #include <string>
 #include <vector>
 
-//#include "Linea.h"
-//#include "Plano.h"
-//#include "Objeto.h"
 
 using namespace std;
 
