@@ -31,8 +31,8 @@ public:
     Sistema();
     double calcular_distancia(double x, double y, double z, Punto punto);
     int buscar_objeto(string nombre);
-    int calcular_minimo(char coordenada);
-    int calcular_maximo(char coordenada);
+    double calcular_minimo(char coordenada);
+    double calcular_maximo(char coordenada);
     void cargarArchivo(string nombre);
     void listado();
     void envolvente();

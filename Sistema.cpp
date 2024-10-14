@@ -38,8 +38,8 @@ int Sistema::buscar_objeto(string nombre){// si encuentra el indice lo devuelve,
   return indice;
 }
 
-int Sistema::calcular_minimo(char coordenada){
-    int minimo=0;
+double Sistema::calcular_minimo(char coordenada){
+    double minimo=0;
     switch (coordenada)
     {
     case 'x':
@@ -73,8 +73,8 @@ int Sistema::calcular_minimo(char coordenada){
     
 }
 
-int Sistema::calcular_maximo(char coordenada){
-    int maximo=0;
+double Sistema::calcular_maximo(char coordenada){
+    double maximo=0;
     switch (coordenada)
     {
     case 'x':
