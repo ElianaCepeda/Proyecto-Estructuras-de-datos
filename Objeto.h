@@ -9,7 +9,7 @@
 #include "Punto.h"
 #include "Linea.h"
 #include "Plano.h"
-#include "ArbolKD3d.hxx"
+#include "ArbolKD3d.cxx"
 
 using namespace std;
 

@@ -1,7 +1,7 @@
 
 #ifndef ARBOLKD_H
 #define ARBOLKD_H
-#include "NodoKD.hxx"
+#include "NodoKD.cxx"
 #include "Punto.h"
 
 template <class T>
@@ -24,5 +24,5 @@ public:
     void nivelOrden();
 };
 
-#include "ArbolKD3d.cxx"
+//#include "ArbolKD3d.cxx"
 #endif //ARBOLKD_HXX

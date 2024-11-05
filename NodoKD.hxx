@@ -27,7 +27,7 @@ public:
     void inOrden();
 };
 
-#include "NodoKD.cxx"
+//#include "NodoKD.cxx"
 #endif //NODOKD_HXX
 
 
