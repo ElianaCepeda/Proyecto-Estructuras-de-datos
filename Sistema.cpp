@@ -1006,29 +1006,31 @@ void Sistema::v_cercanos_caja(string nombreObjeto){
     Objeto *envolvente = objetos[indiceObjeto]->get_envolvente();
     Objeto *objeto=objetos[indiceObjeto];
     if(envolvente == nullptr){
-      cout<<"La envolvente de "<<nombreObjeto<<" no ha sido calculada"<<endl;
-    }else{
-      cout<<"Esquina\t\tVertice\t\tDistancia"<<endl;
-      for(int i=0; i<envolvente->get_vertices().size();i++){
-        double x;
-        double y;
-        double z;
-        x=envolvente->get_vertices()[i]->get_x();
-        y=envolvente->get_vertices()[i]->get_y();
-        z=envolvente->get_vertices()[i]->get_z();
-        double menor=calcular_distancia(x,y,z, *(objeto->get_vertices()[0]));
-        double distancia;
-        
-        Punto* verticeCercano;
-        
-        verticeCercano= objetos[indiceObjeto]->vertice_cercano(x,y,z);
-        menor = calcular_distancia(x,y,z,*verticeCercano);
+      envolventeObjeto(nombreObjeto);
+      envolvente = objetos[indiceObjeto]->get_envolvente();
+    }
+
+    cout<<"Esquina\t\tVertice\t\tDistancia"<<endl;
+    for(int i=0; i<envolvente->get_vertices().size();i++){
+      double x;
+      double y;
+      double z;
+      x=envolvente->get_vertices()[i]->get_x();
+      y=envolvente->get_vertices()[i]->get_y();
+      z=envolvente->get_vertices()[i]->get_z();
+      double menor=calcular_distancia(x,y,z, *(objeto->get_vertices()[0]));
+      double distancia;
+      
+      Punto* verticeCercano;
+      
+      verticeCercano= objetos[indiceObjeto]->vertice_cercano(x,y,z);
+      menor = calcular_distancia(x,y,z,*verticeCercano);
 
 
-        cout<<i+1<<" ( "<<x<<" "<<y<<" "<<z<<" )\t"
-            <<verticeCercano->get_indiceObjeto()<<*verticeCercano<<"\t"
-           <<menor<<endl;
-      }
+      cout<<i+1<<" ( "<<x<<" "<<y<<" "<<z<<" )\t"
+          <<verticeCercano->get_indiceObjeto()<<*verticeCercano<<"\t"
+          <<menor<<endl;
+    
     }
   
   }
