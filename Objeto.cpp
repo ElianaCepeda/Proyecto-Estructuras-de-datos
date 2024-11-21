@@ -101,6 +101,7 @@ void Objeto::set_grafo(Grafo <Punto *> grafo){
 void Objeto::anadir_vertice(Punto * vertice){
     vertices.push_back(vertice);
     grafo.insertarVertice(vertice);
+    arbolPuntos->insertar(vertice);
 }
     
 void Objeto::anadir_arista(Punto * v1, Punto * v2 ){
@@ -179,6 +180,35 @@ double Objeto::calcular_maximo(char coordenada){
     
     return maximo;
 }
+
+double Objeto::calcula_centroide(char coordenada){
+    double centroide=0;
+    switch (coordenada)
+    {
+    case 'x':
+        for(int i=0; i<vertices.size(); i++){
+            centroide += vertices[i]->get_x();
+        }
+        break;
+    case 'y':
+        for(int i=0; i<vertices.size(); i++){
+            centroide += vertices[i]->get_y();
+        }
+        break;
+    
+    case 'z':
+        for(int i=0; i<vertices.size(); i++){
+            centroide += vertices[i]->get_z();
+        }
+        break;
+    
+    default:
+        break;
+    }
+    
+    return centroide/vertices.size();
+}
+
 
 Punto* Objeto::vertice_cercano(double px, double py, double pz){
     Punto* verticeCercano;

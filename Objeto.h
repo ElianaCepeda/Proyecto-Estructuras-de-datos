@@ -48,6 +48,9 @@ public:
     void anadir_arista(Punto * v1, Punto * v2 );
     double calcular_minimo(char coordenada);
     double calcular_maximo(char coordenada);
+
+    double calcula_centroide(char coordenada);
+    
     Punto* vertice_cercano(double px, double py, double pz);
     string to_string();
 

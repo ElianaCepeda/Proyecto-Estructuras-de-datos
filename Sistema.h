@@ -39,11 +39,13 @@ public:
     void envolventeObjeto(string nombreObjeto);
     void descargarObjeto(string nombreObjeto);
     void guardarObjetoArchivo(string nombreObjeto, string nombreArchivo);
+    int v_cercanoObjeto(double px, double py, double pz, string nombreObjeto);
     void v_cercanoObjeto(string px, string py, string pz, string nombreObjeto);
     void v_cercano(string px, string py, string pz);
     void v_cercanos_caja(string nombreObjeto);
     void ruta_cortaVertices(string i1, string i2, string nombre_objeto);
-    void ruta_cortaCentro();
+    void ruta_cortaVertices(int i1, int i2, string nombre_objeto);
+    void ruta_cortaCentro(string i1, string nombre_objeto);
     void ayuda();
     void ayudaComando(string comando);
 };

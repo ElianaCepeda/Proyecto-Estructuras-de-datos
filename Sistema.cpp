@@ -983,11 +983,44 @@ void Sistema::guardarObjetoArchivo(string nombreObjeto, string nombreArchivo){
   
 }
 
+int Sistema::v_cercanoObjeto(double x, double y, double z, string nombreObjeto)
+{
+  int indiceObjeto = buscar_objeto(nombreObjeto);
+  bool parametros_correctos = true;
+  int indice= -1;
+
+  if (indiceObjeto == -1)
+  {
+    cout << "El objeto " << nombreObjeto << " no ha sido cargado en memoria" << endl;
+  }
+  else
+  {
+    try
+    {
+      Objeto *objeto = objetos[indiceObjeto];  
+      double menor =0; 
+      if (parametros_correctos)
+      {
+        Punto* verticeCercano;
+        
+        verticeCercano= objetos[indiceObjeto]->vertice_cercano(x,y,z);
+        indice=verticeCercano->get_indiceObjeto();
+      }
+    }
+    catch (exception &e)
+    {
+      parametros_correctos = false;
+      cout << "parametros del punto dado invalidos" << endl;
+    }
+  }
+
+  return indice;
+}
+
 void Sistema::v_cercanoObjeto(string px, string py, string pz, string nombreObjeto)
 {
   int indiceObjeto = buscar_objeto(nombreObjeto);
   bool parametros_correctos = true;
-
   if (indiceObjeto == -1)
   {
     cout << "El objeto " << nombreObjeto << " no ha sido cargado en memoria" << endl;
@@ -1017,7 +1050,9 @@ void Sistema::v_cercanoObjeto(string px, string py, string pz, string nombreObje
       cout << "parametros del punto dado invalidos" << endl;
     }
   }
+
 }
+
 
 void Sistema::v_cercano(string px, string py, string pz){
   bool parametros_correctos=true;
@@ -1126,8 +1161,7 @@ void Sistema::ruta_cortaVertices(string i1, string i2, string nombre_objeto){
   {
     indice1 = stoi(i1);
     indice2 = stoi(i2);
-    cout<<indice1<<endl;
-    cout<<indice2<<endl;
+
     if(indice1 == indice2){
       cout<<"Los indices de los vertices dados son iguales \n";
       parametros_correctos=false;
@@ -1146,13 +1180,13 @@ void Sistema::ruta_cortaVertices(string i1, string i2, string nombre_objeto){
         return;
       }
       if(parametros_correctos){
-        cout<< " parametrso correctos\n";
         vector< vector<unsigned long> > rutas_cortas = objetos[indiceObjeto]->get_grafo().dijkstra(indice1);
         vector<unsigned long> ruta = rutas_cortas[indice2];
        
         
         if(ruta.size()>0){
-          cout<< "La ruta mas corta que conecta los vertices "<< indice1<< " y "<< indice2<<" del objeto "<<nombre_objeto<< " pasa por: ";
+          cout<< "La ruta mas corta que conecta los vertices "<< indice1<<" " << *objetos[indiceObjeto]->get_vertices()[indice1]
+          << " y "<< indice2<<" " << *objetos[indiceObjeto]->get_vertices()[indice2]<<" del objeto "<<nombre_objeto<< " pasa por: ";
           cout<< ruta[0];
         }else{
           cout<< "No existe una ruta entre los vertices "<< indice1<< " y "<< indice2<<" del objeto "<<nombre_objeto<<endl;
@@ -1161,7 +1195,7 @@ void Sistema::ruta_cortaVertices(string i1, string i2, string nombre_objeto){
         for( unsigned int i = 1; i < ruta.size( ); ++i )
           cout << " - "<< ruta[ i ] ;
 
-          cout << "con una longitud de: ";
+          cout << " con una longitud de: ";
           double costoTotal = 0.0;
           for( unsigned int k = 0; k < ruta.size( ) - 1; ++k )
             costoTotal += objetos[indiceObjeto]->get_grafo().obtenerCosto( ruta[ k ], ruta[ k + 1 ] );
@@ -1178,8 +1212,100 @@ void Sistema::ruta_cortaVertices(string i1, string i2, string nombre_objeto){
   
 }
 
-void Sistema::ruta_cortaCentro(){
-  std::cout<<"Comando ejecutado\n";
+
+void Sistema::ruta_cortaVertices(int indice1, int indice2, string nombre_objeto){
+  bool parametros_correctos =true;
+  if (objetos.size() == 0)
+  {
+    cout << "Ningun objeto ha sido cargado en memoria" << endl;
+    parametros_correctos=false;
+    return;
+  }
+
+    if(indice1 == indice2){
+      cout<<"Los indices de los vertices dados son iguales \n";
+      parametros_correctos=false;
+      return;
+    }
+
+    int indiceObjeto = buscar_objeto(nombre_objeto);
+   
+      if(parametros_correctos){
+        vector< vector<unsigned long> > rutas_cortas = objetos[indiceObjeto]->get_grafo().dijkstra(indice1);
+        vector<unsigned long> ruta = rutas_cortas[indice2];
+       
+        if(ruta.size()>0){
+          cout<< "La ruta mas corta que conecta el vertice "<< indice1<< " " << *objetos[indiceObjeto]->get_vertices()[indice1]<<" con el centro del objeto "<<nombre_objeto<< " ubicado en "<<indice2 <<" "<< *objetos[indiceObjeto]->get_vertices()[indice2] <<" pasa por: ";
+          cout<< ruta[0];
+        }else{
+          cout<< "No existe una ruta entre los vertices "<< indice1<< " y "<< indice2<<" del objeto "<<nombre_objeto<<endl;
+        }
+        
+        for( unsigned int i = 1; i < ruta.size( ); ++i )
+          cout << " - "<< ruta[ i ] ;
+
+          cout << " con una longitud de: ";
+          double costoTotal = 0.0;
+          for( unsigned int k = 0; k < ruta.size( ) - 1; ++k )
+            costoTotal += objetos[indiceObjeto]->get_grafo().obtenerCosto( ruta[ k ], ruta[ k + 1 ] );
+            cout << costoTotal << std::endl;
+
+
+    }
+  
+}
+
+void Sistema::ruta_cortaCentro(string i1, string nombre_objeto){
+
+  bool parametros_correctos =true;
+  if (objetos.size() == 0)
+  {
+    cout << "Ningun objeto ha sido cargado en memoria" << endl;
+    parametros_correctos=false;
+    return;
+  }
+
+  int indice1;
+  int indiceObjeto;
+  try
+  {
+    indice1 = stoi(i1);
+
+    indiceObjeto = buscar_objeto(nombre_objeto);
+    if(indiceObjeto==-1){
+      cout<<"El objeto "<<nombre_objeto<< " no ha sido cargado en memoria\n";
+      parametros_correctos= false;
+      return;
+    }
+
+    if(parametros_correctos){
+      double cen_x = objetos[indiceObjeto]->calcula_centroide('x');
+      double cen_y = objetos[indiceObjeto]->calcula_centroide('y');
+      double cen_z = objetos[indiceObjeto]->calcula_centroide('z');
+
+      int indice_conexion= v_cercanoObjeto(cen_x, cen_y, cen_z, nombre_objeto);
+      vector <Punto *> puntos_objeto =objetos[indiceObjeto]->get_vertices();
+
+      Punto* vertice= new Punto(cant_puntos ,puntos_objeto.size(), cen_x, cen_y, cen_z );
+      cant_puntos++;
+
+      objetos[indiceObjeto]->anadir_vertice(vertice);
+      objetos[indiceObjeto]->anadir_arista(puntos_objeto[indice_conexion], vertice);
+
+      ruta_cortaVertices(indice1, puntos_objeto.size(), nombre_objeto);
+
+    }
+
+
+
+
+
+
+
+  }catch(exception &e){
+    cout<<"Parametros no validos\n";
+  }
+
 }
 
 

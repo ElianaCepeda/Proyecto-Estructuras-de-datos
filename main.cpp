@@ -158,7 +158,7 @@ int main()
         {
             if (index == 3)
             {
-                sistema.ruta_cortaCentro();
+                sistema.ruta_cortaCentro(tokens[1], tokens[2]);
             }
             else
             {
