@@ -1161,8 +1161,7 @@ void Sistema::ruta_cortaVertices(string i1, string i2, string nombre_objeto){
         for( unsigned int i = 1; i < ruta.size( ); ++i )
           cout << " - "<< ruta[ i ] ;
 
-          cout << std::endl;
-          cout << "Distancia total recorrida: ";
+          cout << "con una longitud de: ";
           double costoTotal = 0.0;
           for( unsigned int k = 0; k < ruta.size( ) - 1; ++k )
             costoTotal += objetos[indiceObjeto]->get_grafo().obtenerCosto( ruta[ k ], ruta[ k + 1 ] );
