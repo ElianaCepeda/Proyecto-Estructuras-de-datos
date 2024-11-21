@@ -9,6 +9,7 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
+
 using namespace std;
 
 Sistema::Sistema(){
@@ -117,6 +118,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
   vector<Linea *> aux_aristas_cara;
   vector<Plano *> aux_caras_objeto;
   ArbolKD3d<Punto* > *aux_arbolPuntos= new ArbolKD3d<Punto *>();
+  Grafo <Punto* > aux_grafo;
   bool archivo_correcto=true;
   bool fin_archivo=false;
   bool encontrado;
@@ -155,6 +157,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
             puntos.push_back(vertice);
             aux_vertices_objeto.push_back(vertice);
             aux_arbolPuntos->insertar(vertice);
+            aux_grafo.insertarVertice(vertice);
             cant_puntos++;
             contador++; // guardamos los vertices del objeto
           }
@@ -197,6 +200,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
               lineas.push_back(arista);
               aux_aristas_objeto.push_back(arista);
               aux_aristas_cara.push_back(arista);
+              aux_grafo.insAristaNoDir(aux_vertices_objeto[indice1], aux_vertices_objeto[indice2],arista->get_distancia());
               cant_lineas++;
               
 
@@ -223,7 +227,7 @@ void Sistema::cargarArchivo(string nombreArchivo){
         }
 
 
-        Objeto *objeto = new Objeto(cant_objetos, nombreObjeto, aux_vertices_objeto, aux_aristas_objeto, aux_caras_objeto);
+        Objeto *objeto = new Objeto(cant_objetos, nombreObjeto, aux_vertices_objeto, aux_aristas_objeto, aux_caras_objeto, aux_grafo);
         objetos.push_back(objeto);
         objeto->set_arbolPuntos(aux_arbolPuntos);
         cant_objetos++;
@@ -279,6 +283,8 @@ void Sistema::envolvente(){
   vector<Punto *> aux_vertices_cara5;
   vector<Linea *> aux_aristas_cara5;
 
+  Grafo<Punto *> aux_grafo; 
+
 
   if(objetos.size()==0){
     cout<<"Ningun objeto ha sido cargado en memoria"<<endl;
@@ -303,48 +309,56 @@ void Sistema::envolvente(){
     Punto *p0 = new Punto (cant_puntos, 0, xmax, ymax, zmax );//pmax
     puntos.push_back(p0);
     aux_vertices_objeto.push_back(p0); 
+    aux_grafo.insertarVertice(p0);
     aux_arbol->insertar(p0);
     cant_puntos++;
 
     Punto *p1 = new Punto (cant_puntos, 1, xmax, ymin, zmax );
     puntos.push_back(p1 );
-    aux_vertices_objeto.push_back(p1 ); 
+    aux_vertices_objeto.push_back(p1 );
+    aux_grafo.insertarVertice(p1); 
     aux_arbol->insertar(p1);
     cant_puntos++;
 
     Punto *p2 = new Punto (cant_puntos, 2, xmin, ymin, zmax );
     puntos.push_back(p2 );
     aux_vertices_objeto.push_back(p2 );
+    aux_grafo.insertarVertice(p2);
     aux_arbol->insertar(p2); 
     cant_puntos++;
 
     Punto *p3 = new Punto (cant_puntos, 3, xmin, ymax, zmax );
     puntos.push_back(p3 );
     aux_vertices_objeto.push_back(p3 );
+    aux_grafo.insertarVertice(p3);
     aux_arbol->insertar(p3); 
     cant_puntos++;
 
     Punto *p4 = new Punto (cant_puntos, 4, xmin, ymax, zmin );
     puntos.push_back(p4 );
     aux_vertices_objeto.push_back(p4 );
+    aux_grafo.insertarVertice(p4);
     aux_arbol->insertar(p4); 
     cant_puntos++;
 
     Punto *p5 = new Punto (cant_puntos, 5, xmax, ymax, zmin );
     puntos.push_back(p5 );
     aux_vertices_objeto.push_back(p5 ); 
+    aux_grafo.insertarVertice(p5);
     aux_arbol->insertar(p5);
     cant_puntos++;
 
     Punto *p6 = new Punto (cant_puntos, 6, xmax, ymin, zmin );
     puntos.push_back(p6 );
     aux_vertices_objeto.push_back(p6 ); 
+    aux_grafo.insertarVertice(p6);
     aux_arbol->insertar(p6);
     cant_puntos++;
 
     Punto *p7 = new Punto (cant_puntos, 7, xmin, ymin, zmin );//pmin
     puntos.push_back(p7 );
     aux_vertices_objeto.push_back(p7 ); 
+    aux_grafo.insertarVertice(p7);
     aux_arbol->insertar(p7);
     cant_puntos++;
 
@@ -353,121 +367,145 @@ void Sistema::envolvente(){
     Linea *a0 = new Linea(cant_lineas, p0, p1);
     lineas.push_back(a0 );
     aux_aristas_objeto.push_back(a0 );
+    aux_grafo.insAristaNoDir(p0, p1, a0->get_distancia());
     cant_lineas++;
 
     Linea *a1 = new Linea(cant_lineas, p1, p2);
     lineas.push_back(a1 );
     aux_aristas_objeto.push_back(a1 );
+    aux_grafo.insAristaNoDir(p1, p2, a1->get_distancia());
     cant_lineas++;
 
     Linea *a2 = new Linea(cant_lineas, p2, p3);
     lineas.push_back(a2 );
     aux_aristas_objeto.push_back(a2 );
+    aux_grafo.insAristaNoDir(p2, p3, a2->get_distancia());
     cant_lineas++;
 
     Linea *a3 = new Linea(cant_lineas, p3, p0);
     lineas.push_back(a3 );
     aux_aristas_objeto.push_back(a3 );
+    aux_grafo.insAristaNoDir(p3, p0, a3->get_distancia());
     cant_lineas++;
 
     Linea *a4  = new Linea(cant_lineas, p2, p1);
     lineas.push_back(a4);
     aux_aristas_objeto.push_back(a4);
+    aux_grafo.insAristaNoDir(p2, p1, a4->get_distancia());
     cant_lineas++;
 
     Linea *a5 = new Linea(cant_lineas, p1, p6);
     lineas.push_back(a5 );
     aux_aristas_objeto.push_back(a5 );
+    aux_grafo.insAristaNoDir(p1, p6, a5->get_distancia());
     cant_lineas++;
 
     Linea *a6 = new Linea(cant_lineas, p6, p7);
     lineas.push_back(a6 );
     aux_aristas_objeto.push_back(a6 );
+    aux_grafo.insAristaNoDir(p6, p7, a6->get_distancia());
     cant_lineas++;
 
     Linea *a7 = new Linea(cant_lineas, p7, p2);
     lineas.push_back(a7 );
     aux_aristas_objeto.push_back(a7 );
+    aux_grafo.insAristaNoDir(p7, p2, a7->get_distancia());
     cant_lineas++;
 
     Linea *a8 = new Linea(cant_lineas, p6, p1);
     lineas.push_back(a8 );
     aux_aristas_objeto.push_back(a8 );
+    aux_grafo.insAristaNoDir(p6, p1, a8->get_distancia());
     cant_lineas++;
 
     Linea *a9 = new Linea(cant_lineas, p1, p0);
     lineas.push_back(a9 );
     aux_aristas_objeto.push_back(a9 );
+    aux_grafo.insAristaNoDir(p1, p0, a9->get_distancia());
     cant_lineas++;
 
     Linea *a10 = new Linea(cant_lineas, p0, p5);
     lineas.push_back(a10 );
     aux_aristas_objeto.push_back(a10 );
+    aux_grafo.insAristaNoDir(p0, p5, a10->get_distancia());
     cant_lineas++;
 
     Linea *a11 = new Linea(cant_lineas, p5, p6);
     lineas.push_back(a11 );
     aux_aristas_objeto.push_back(a11 );
+    aux_grafo.insAristaNoDir(p5, p6, a11->get_distancia());
     cant_lineas++;
 
     Linea *a12 = new Linea(cant_lineas, p3, p0);
     lineas.push_back(a12 );
     aux_aristas_objeto.push_back(a12 );
+    aux_grafo.insAristaNoDir(p3, p0, a12->get_distancia());
     cant_lineas++;
 
     Linea *a13 = new Linea(cant_lineas, p0, p5);
     lineas.push_back(a13 );
     aux_aristas_objeto.push_back(a13 );
+    aux_grafo.insAristaNoDir(p0, p5, a13->get_distancia());
     cant_lineas++;
 
     Linea *a14 = new Linea(cant_lineas, p5, p4);
     lineas.push_back(a14 );
     aux_aristas_objeto.push_back(a14 );
+    aux_grafo.insAristaNoDir(p5, p4, a14->get_distancia());
     cant_lineas++;
 
     Linea *a15 = new Linea(cant_lineas, p4, p3);
     lineas.push_back(a15 );
     aux_aristas_objeto.push_back(a15 );
+    aux_grafo.insAristaNoDir(p4, p3, a15->get_distancia());
     cant_lineas++;
 
     Linea *a16  = new Linea(cant_lineas, p3, p2);
     lineas.push_back(a16 );
     aux_aristas_objeto.push_back(a16 );
+    aux_grafo.insAristaNoDir(p3, p2, a16->get_distancia());
     cant_lineas++;
 
     Linea *a17 = new Linea(cant_lineas, p2, p7);
     lineas.push_back(a17 );
     aux_aristas_objeto.push_back(a17 );
+    aux_grafo.insAristaNoDir(p2, p7, a17->get_distancia());
     cant_lineas++;
 
     Linea *a18 = new Linea(cant_lineas, p7, p4);
     lineas.push_back(a18 );
     aux_aristas_objeto.push_back(a18 );
+    aux_grafo.insAristaNoDir(p7, p4, a18->get_distancia());
     cant_lineas++;
 
     Linea *a19 = new Linea(cant_lineas, p4, p3);
     lineas.push_back(a19 );
     aux_aristas_objeto.push_back(a19 );
+    aux_grafo.insAristaNoDir(p4, p3, a19->get_distancia());
     cant_lineas++;
 
     Linea *a20 = new Linea(cant_lineas, p7, p6);
     lineas.push_back(a20 );
     aux_aristas_objeto.push_back(a20 );
+    aux_grafo.insAristaNoDir(p7, p6, a20->get_distancia());
     cant_lineas++;
 
     Linea *a21 = new Linea(cant_lineas, p6, p5);
     lineas.push_back(a21 );
     aux_aristas_objeto.push_back(a21 );
+    aux_grafo.insAristaNoDir(p6, p5, a21->get_distancia());
     cant_lineas++;
 
     Linea *a22 = new Linea(cant_lineas, p5, p4);
     lineas.push_back(a22 );
     aux_aristas_objeto.push_back(a22 );
+    aux_grafo.insAristaNoDir(p5, p4, a22->get_distancia());
     cant_lineas++;
 
     Linea *a23 = new Linea(cant_lineas, p4, p7);
     lineas.push_back(a23 );
     aux_aristas_objeto.push_back(a23 );
+    aux_grafo.insAristaNoDir(p4, p7, a23->get_distancia());
     cant_lineas++;
 
     //Creamos las caras
@@ -550,7 +588,7 @@ void Sistema::envolvente(){
     cant_planos++;
   
       
-    Objeto *envolvente= new Objeto(cant_objetos, "env_global", aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto);
+    Objeto *envolvente= new Objeto(cant_objetos, "env_global", aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto, aux_grafo);
     envolvente->set_arbolPuntos(aux_arbol);
     objetos.push_back(envolvente);
     cant_objetos++;
@@ -581,6 +619,8 @@ void Sistema::envolventeObjeto(string nombreObjeto){
   vector<Punto *> aux_vertices_cara5;
   vector<Linea *> aux_aristas_cara5;
 
+  Grafo <Punto *> aux_grafo;
+
   if(indice_objeto==-1){
     cout<<"El objeto "<<nombreObjeto<<" no ha sido cargado en memoria"<<endl;
   }else{
@@ -596,49 +636,57 @@ void Sistema::envolventeObjeto(string nombreObjeto){
     Punto *p0 = new Punto (cant_puntos, 0, xmax, ymax, zmax );//pmax
     puntos.push_back(p0);
     aux_vertices_objeto.push_back(p0); 
+    aux_grafo.insertarVertice(p0);
     aux_arbol->insertar(p0);
     cant_puntos++;
 
     Punto *p1 = new Punto (cant_puntos, 1, xmax, ymin, zmax );
     puntos.push_back(p1 );
     aux_vertices_objeto.push_back(p1 );
-    aux_arbol->insertar(p1); 
+    aux_grafo.insertarVertice(p1); 
+    aux_arbol->insertar(p1);
     cant_puntos++;
 
     Punto *p2 = new Punto (cant_puntos, 2, xmin, ymin, zmax );
     puntos.push_back(p2 );
     aux_vertices_objeto.push_back(p2 );
+    aux_grafo.insertarVertice(p2);
     aux_arbol->insertar(p2); 
     cant_puntos++;
 
     Punto *p3 = new Punto (cant_puntos, 3, xmin, ymax, zmax );
     puntos.push_back(p3 );
     aux_vertices_objeto.push_back(p3 );
+    aux_grafo.insertarVertice(p3);
     aux_arbol->insertar(p3); 
     cant_puntos++;
 
     Punto *p4 = new Punto (cant_puntos, 4, xmin, ymax, zmin );
     puntos.push_back(p4 );
     aux_vertices_objeto.push_back(p4 );
+    aux_grafo.insertarVertice(p4);
     aux_arbol->insertar(p4); 
     cant_puntos++;
 
     Punto *p5 = new Punto (cant_puntos, 5, xmax, ymax, zmin );
     puntos.push_back(p5 );
-    aux_vertices_objeto.push_back(p5 );
-    aux_arbol->insertar(p5); 
+    aux_vertices_objeto.push_back(p5 ); 
+    aux_grafo.insertarVertice(p5);
+    aux_arbol->insertar(p5);
     cant_puntos++;
 
     Punto *p6 = new Punto (cant_puntos, 6, xmax, ymin, zmin );
     puntos.push_back(p6 );
-    aux_vertices_objeto.push_back(p6 );
-    aux_arbol->insertar(p6); 
+    aux_vertices_objeto.push_back(p6 ); 
+    aux_grafo.insertarVertice(p6);
+    aux_arbol->insertar(p6);
     cant_puntos++;
 
     Punto *p7 = new Punto (cant_puntos, 7, xmin, ymin, zmin );//pmin
     puntos.push_back(p7 );
-    aux_vertices_objeto.push_back(p7 );
-    aux_arbol->insertar(p7); 
+    aux_vertices_objeto.push_back(p7 ); 
+    aux_grafo.insertarVertice(p7);
+    aux_arbol->insertar(p7);
     cant_puntos++;
 
     // creamos las aristas necesarias 
@@ -646,121 +694,145 @@ void Sistema::envolventeObjeto(string nombreObjeto){
     Linea *a0 = new Linea(cant_lineas, p0, p1);
     lineas.push_back(a0 );
     aux_aristas_objeto.push_back(a0 );
+    aux_grafo.insAristaNoDir(p0, p1, a0->get_distancia());
     cant_lineas++;
 
     Linea *a1 = new Linea(cant_lineas, p1, p2);
     lineas.push_back(a1 );
     aux_aristas_objeto.push_back(a1 );
+    aux_grafo.insAristaNoDir(p1, p2, a1->get_distancia());
     cant_lineas++;
 
     Linea *a2 = new Linea(cant_lineas, p2, p3);
     lineas.push_back(a2 );
     aux_aristas_objeto.push_back(a2 );
+    aux_grafo.insAristaNoDir(p2, p3, a2->get_distancia());
     cant_lineas++;
 
     Linea *a3 = new Linea(cant_lineas, p3, p0);
     lineas.push_back(a3 );
     aux_aristas_objeto.push_back(a3 );
+    aux_grafo.insAristaNoDir(p3, p0, a3->get_distancia());
     cant_lineas++;
 
     Linea *a4  = new Linea(cant_lineas, p2, p1);
     lineas.push_back(a4);
     aux_aristas_objeto.push_back(a4);
+    aux_grafo.insAristaNoDir(p2, p1, a4->get_distancia());
     cant_lineas++;
 
     Linea *a5 = new Linea(cant_lineas, p1, p6);
     lineas.push_back(a5 );
     aux_aristas_objeto.push_back(a5 );
+    aux_grafo.insAristaNoDir(p1, p6, a5->get_distancia());
     cant_lineas++;
 
     Linea *a6 = new Linea(cant_lineas, p6, p7);
     lineas.push_back(a6 );
     aux_aristas_objeto.push_back(a6 );
+    aux_grafo.insAristaNoDir(p6, p7, a6->get_distancia());
     cant_lineas++;
 
     Linea *a7 = new Linea(cant_lineas, p7, p2);
     lineas.push_back(a7 );
     aux_aristas_objeto.push_back(a7 );
+    aux_grafo.insAristaNoDir(p7, p2, a7->get_distancia());
     cant_lineas++;
 
     Linea *a8 = new Linea(cant_lineas, p6, p1);
     lineas.push_back(a8 );
     aux_aristas_objeto.push_back(a8 );
+    aux_grafo.insAristaNoDir(p6, p1, a8->get_distancia());
     cant_lineas++;
 
     Linea *a9 = new Linea(cant_lineas, p1, p0);
     lineas.push_back(a9 );
     aux_aristas_objeto.push_back(a9 );
+    aux_grafo.insAristaNoDir(p1, p0, a9->get_distancia());
     cant_lineas++;
 
     Linea *a10 = new Linea(cant_lineas, p0, p5);
     lineas.push_back(a10 );
     aux_aristas_objeto.push_back(a10 );
+    aux_grafo.insAristaNoDir(p0, p5, a10->get_distancia());
     cant_lineas++;
 
     Linea *a11 = new Linea(cant_lineas, p5, p6);
     lineas.push_back(a11 );
     aux_aristas_objeto.push_back(a11 );
+    aux_grafo.insAristaNoDir(p5, p6, a11->get_distancia());
     cant_lineas++;
 
     Linea *a12 = new Linea(cant_lineas, p3, p0);
     lineas.push_back(a12 );
     aux_aristas_objeto.push_back(a12 );
+    aux_grafo.insAristaNoDir(p3, p0, a12->get_distancia());
     cant_lineas++;
 
     Linea *a13 = new Linea(cant_lineas, p0, p5);
     lineas.push_back(a13 );
     aux_aristas_objeto.push_back(a13 );
+    aux_grafo.insAristaNoDir(p0, p5, a13->get_distancia());
     cant_lineas++;
 
     Linea *a14 = new Linea(cant_lineas, p5, p4);
     lineas.push_back(a14 );
     aux_aristas_objeto.push_back(a14 );
+    aux_grafo.insAristaNoDir(p5, p4, a14->get_distancia());
     cant_lineas++;
 
     Linea *a15 = new Linea(cant_lineas, p4, p3);
     lineas.push_back(a15 );
     aux_aristas_objeto.push_back(a15 );
+    aux_grafo.insAristaNoDir(p4, p3, a15->get_distancia());
     cant_lineas++;
 
     Linea *a16  = new Linea(cant_lineas, p3, p2);
     lineas.push_back(a16 );
     aux_aristas_objeto.push_back(a16 );
+    aux_grafo.insAristaNoDir(p3, p2, a16->get_distancia());
     cant_lineas++;
 
     Linea *a17 = new Linea(cant_lineas, p2, p7);
     lineas.push_back(a17 );
     aux_aristas_objeto.push_back(a17 );
+    aux_grafo.insAristaNoDir(p2, p7, a17->get_distancia());
     cant_lineas++;
 
     Linea *a18 = new Linea(cant_lineas, p7, p4);
     lineas.push_back(a18 );
     aux_aristas_objeto.push_back(a18 );
+    aux_grafo.insAristaNoDir(p7, p4, a18->get_distancia());
     cant_lineas++;
 
     Linea *a19 = new Linea(cant_lineas, p4, p3);
     lineas.push_back(a19 );
     aux_aristas_objeto.push_back(a19 );
+    aux_grafo.insAristaNoDir(p4, p3, a19->get_distancia());
     cant_lineas++;
 
     Linea *a20 = new Linea(cant_lineas, p7, p6);
     lineas.push_back(a20 );
     aux_aristas_objeto.push_back(a20 );
+    aux_grafo.insAristaNoDir(p7, p6, a20->get_distancia());
     cant_lineas++;
 
     Linea *a21 = new Linea(cant_lineas, p6, p5);
     lineas.push_back(a21 );
     aux_aristas_objeto.push_back(a21 );
+    aux_grafo.insAristaNoDir(p6, p5, a21->get_distancia());
     cant_lineas++;
 
     Linea *a22 = new Linea(cant_lineas, p5, p4);
     lineas.push_back(a22 );
     aux_aristas_objeto.push_back(a22 );
+    aux_grafo.insAristaNoDir(p5, p4, a22->get_distancia());
     cant_lineas++;
 
     Linea *a23 = new Linea(cant_lineas, p4, p7);
     lineas.push_back(a23 );
     aux_aristas_objeto.push_back(a23 );
+    aux_grafo.insAristaNoDir(p4, p7, a23->get_distancia());
     cant_lineas++;
 
     //Creamos las caras
@@ -842,7 +914,7 @@ void Sistema::envolventeObjeto(string nombreObjeto){
     aux_caras_objeto.push_back(c5 );
     cant_planos++;
     
-    Objeto *envolvente= new Objeto(cant_objetos, "env_"+nombreObjeto, aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto);
+    Objeto *envolvente= new Objeto(cant_objetos, "env_"+nombreObjeto, aux_vertices_objeto,aux_aristas_objeto,aux_caras_objeto, aux_grafo);
     envolvente->set_arbolPuntos(aux_arbol);
     objetos.push_back(envolvente);
     cant_objetos++;
@@ -1037,8 +1109,74 @@ void Sistema::v_cercanos_caja(string nombreObjeto){
   
 }
 
-void Sistema::ruta_cortaVertices(){
-  std::cout<<"Comando ejecutado\n";
+void Sistema::ruta_cortaVertices(string i1, string i2, string nombre_objeto){
+  bool parametros_correctos =true;
+  if (objetos.size() == 0)
+  {
+    cout << "Ningun objeto ha sido cargado en memoria" << endl;
+    parametros_correctos=false;
+    return;
+  }
+
+
+  int indice1;
+  int indice2;
+  int indiceObjeto;
+  try
+  {
+    indice1 = stoi(i1);
+    indice2 = stoi(i2);
+    cout<<indice1<<endl;
+    cout<<indice2<<endl;
+    if(indice1 == indice2){
+      cout<<"Los indices de los vertices dados son iguales \n";
+      parametros_correctos=false;
+      return;
+    }
+
+    indiceObjeto = buscar_objeto(nombre_objeto);
+    if(indiceObjeto==-1){
+      cout<<"El objeto "<<nombre_objeto<< " no ha sido cargado en memoria\n";
+      parametros_correctos= false;
+      return;
+    }else{
+      if((indice1|| indice2)>objetos[indiceObjeto]->get_vertices().size()){
+        cout<<"Algunos de los indices de los vertices estan fuera de rango para el objeto "<<nombre_objeto<<endl;
+        parametros_correctos=false;
+        return;
+      }
+      if(parametros_correctos){
+        cout<< " parametrso correctos\n";
+        vector< vector<unsigned long> > rutas_cortas = objetos[indiceObjeto]->get_grafo().dijkstra(indice1);
+        vector<unsigned long> ruta = rutas_cortas[indice2];
+       
+        
+        if(ruta.size()>0){
+          cout<< "La ruta mas corta que conecta los vertices "<< indice1<< " y "<< indice2<<" del objeto "<<nombre_objeto<< " pasa por: ";
+          cout<< ruta[0];
+        }else{
+          cout<< "No existe una ruta entre los vertices "<< indice1<< " y "<< indice2<<" del objeto "<<nombre_objeto<<endl;
+        }
+        
+        for( unsigned int i = 1; i < ruta.size( ); ++i )
+          cout << " - "<< ruta[ i ] ;
+
+          cout << std::endl;
+          cout << "Distancia total recorrida: ";
+          double costoTotal = 0.0;
+          for( unsigned int k = 0; k < ruta.size( ) - 1; ++k )
+            costoTotal += objetos[indiceObjeto]->get_grafo().obtenerCosto( ruta[ k ], ruta[ k + 1 ] );
+            cout << costoTotal << std::endl;
+
+      }
+
+    }
+
+
+    }catch(exception &e){
+      cout<<"parametros no validos\n";
+    }
+  
 }
 
 void Sistema::ruta_cortaCentro(){

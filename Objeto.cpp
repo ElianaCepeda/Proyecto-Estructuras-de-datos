@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-Objeto::Objeto(int indice, string nombre, vector<Punto *> vertices, vector<Linea *> aristas, vector<Plano *> caras){
+Objeto::Objeto(int indice, string nombre, vector<Punto *> vertices, vector<Linea *> aristas, vector<Plano *> caras, Grafo <Punto* > grafo){
     this->indice=indice;
     this->nombre=nombre;
     this->vertices=vertices;
@@ -13,6 +13,7 @@ Objeto::Objeto(int indice, string nombre, vector<Punto *> vertices, vector<Linea
     this->caras=caras;
     this->arbolPuntos = nullptr;
     this->envolvente=NULL;
+    this->grafo= grafo;
 }
 
 Objeto::~Objeto(){
@@ -88,6 +89,26 @@ Objeto* Objeto::get_envolvente(){
 void Objeto::set_envolvente(Objeto* envolvente){
     this->envolvente=envolvente;
 }
+
+Grafo<Punto *> Objeto::get_grafo(){
+    return grafo;
+}
+
+void Objeto::set_grafo(Grafo <Punto *> grafo){
+    this->grafo=grafo;
+}
+
+void Objeto::anadir_vertice(Punto * vertice){
+    vertices.push_back(vertice);
+    grafo.insertarVertice(vertice);
+}
+    
+void Objeto::anadir_arista(Punto * v1, Punto * v2 ){
+    Linea* arista = new Linea(aristas.size(), v1, v2);
+    aristas.push_back(arista);
+    grafo.insAristaNoDir(v1, v2, arista->get_distancia());
+}
+
 
 
 double Objeto::calcular_minimo(char coordenada){

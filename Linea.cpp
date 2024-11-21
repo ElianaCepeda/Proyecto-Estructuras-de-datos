@@ -12,7 +12,7 @@ Linea::Linea(int indice, Punto* vertice1, Punto* vertice2){
     this->indice=indice;
     this->vertice1=vertice1;
     this->vertice2=vertice2;
-    this->calcular_distancia();
+    this->distancia= calcular_distancia();
 /*     this->esta_en_objetos.clear();
     this->esta_en_caras.clear();
  */}
@@ -70,7 +70,7 @@ vector<Plano*> Linea::get_esta_en_caras(){
     return esta_en_caras;
 }
  */
-void Linea::calcular_distancia(){
-    distancia= sqrt(pow(this->vertice1->get_x()- this->vertice2->get_x(),2)+pow(this->vertice1->get_y()- this->vertice2->get_y(),2)+pow(this->vertice1->get_z()- this->vertice2->get_z(),2));
+double Linea::calcular_distancia(){
+    return sqrt(pow(this->vertice1->get_x()- this->vertice2->get_x(),2)+pow(this->vertice1->get_y()- this->vertice2->get_y(),2)+pow(this->vertice1->get_z()- this->vertice2->get_z(),2));
 
 }

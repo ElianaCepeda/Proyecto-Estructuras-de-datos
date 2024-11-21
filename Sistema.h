@@ -42,7 +42,7 @@ public:
     void v_cercanoObjeto(string px, string py, string pz, string nombreObjeto);
     void v_cercano(string px, string py, string pz);
     void v_cercanos_caja(string nombreObjeto);
-    void ruta_cortaVertices();
+    void ruta_cortaVertices(string i1, string i2, string nombre_objeto);
     void ruta_cortaCentro();
     void ayuda();
     void ayudaComando(string comando);

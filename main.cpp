@@ -147,7 +147,7 @@ int main()
         {
             if (index == 4)
             {
-                sistema.ruta_cortaVertices();
+                sistema.ruta_cortaVertices(tokens[1], tokens[2], tokens[3]);
             }
             else
             {

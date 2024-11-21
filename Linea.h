@@ -20,9 +20,7 @@ private:
     Punto* vertice1;
     Punto* vertice2;
     double distancia;
-/*     vector<Objeto*> esta_en_objetos;
-    vector<Plano*> esta_en_caras;
- */    void calcular_distancia();
+    double calcular_distancia();
 public:
     Linea(int indice, Punto* vertice1, Punto* vertice2);
     int get_indice();
